@@ -147,10 +147,11 @@ namespace vehicle_project {
 			// 
 			this->button5->Location = System::Drawing::Point(206, 48);
 			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(75, 23);
+			this->button5->Size = System::Drawing::Size(144, 23);
 			this->button5->TabIndex = 7;
-			this->button5->Text = L"Reset Model";
+			this->button5->Text = L"Recreate Default Model";
 			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Click += gcnew System::EventHandler(this, &Form1::button5_Click);
 			// 
 			// groupBox1
 			// 
@@ -343,6 +344,14 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 			 for(int i=0;i<NO_OF_ITEMS;i++)
 				converge(i, CUSTOM_MODEL);
 			 is_custom_model_present = 1;
+		 }
+private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+			 generate_observation_sequence(TRAINING, DEFAULT_MODEL);
+			 
+			 current_model = DEFAULT_MODEL;
+			 // Creating Model
+			 for(int i=0;i<NO_OF_ITEMS;i++)
+				converge(i, DEFAULT_MODEL);
 		 }
 };
 }

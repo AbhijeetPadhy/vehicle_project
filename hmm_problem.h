@@ -43,6 +43,7 @@ int T[TRAINING_UTTERANCES+1];
 
 long double COLLECTION_A[TRAINING_UTTERANCES+1][N+1][N+1];
 long double COLLECTION_B[TRAINING_UTTERANCES+1][N+1][M+1];
+const char UNIVERSE_PATH[] = "personal_universe.txt";
 
 int read_A(char file[]){
 	FILE *fptr;
@@ -673,12 +674,18 @@ void converge(int digit, int model){
 
 int generate_observation_sequence(int choice, int model){
 	
-	FILE *fptr, *fptr2;
+	FILE *fptr, *fptr2, *fptr3 = NULL;
 	char filename[300], filename2[300];
 	
 	int utterance = VAR_TRAINING_UTTERANCES;
 	if(choice == TESTING)
 		utterance = TESTING_UTTERANCES;
+
+	if(choice == TRAINING){
+		if ((fptr3 = fopen(UNIVERSE_PATH,"w")) == NULL){
+			printf("Error! opening file");
+		}
+	}
 
 	int frames_per_oberservation[TRAINING_UTTERANCES];
 	for(int i=0;i<VAR_TRAINING_UTTERANCES;i++)
@@ -715,7 +722,7 @@ int generate_observation_sequence(int choice, int model){
 		// for all the utterances
 		for(int j=0;j<utterance;j++){
 			frames_per_oberservation[j] = extract_stable_frame_data(i,j, choice, model);
-			populate_C(frames_per_oberservation[j]);
+			populate_C(frames_per_oberservation[j], fptr3);
 			produce_observation_sequence(frames_per_oberservation[j]);
 			for(int k=0;k<frames_per_oberservation[j];k++){
 				fprintf(fptr, "%d\t", OBS_SEQ_GEN[k]);
@@ -727,7 +734,8 @@ int generate_observation_sequence(int choice, int model){
 		fclose(fptr);
 		fclose(fptr2);
 	}
-	
+	if(fptr3 != NULL)
+		fclose(fptr3);
 	return 0;
 }
 

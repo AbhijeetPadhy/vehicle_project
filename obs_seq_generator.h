@@ -4,6 +4,7 @@
 #include <cstdio>
 
 #define SAMPLES_IN_FRAME 320
+#define SLIDING_WINDOW_AMOUNT 80
 #define FRAMES 150
 #define STABLE_FRAME_FACTOR 0.005
 #define P 12
@@ -16,8 +17,6 @@ double frame_data[SAMPLES_IN_FRAME*FRAMES];		// stores samples of speech frames 
 double test_data[SAMPLES_IN_FRAME];				// Stores samples of a frame
 
 const char INPUT_PATH[] = "input_file.txt";
-const char OUTPUT_PATH[] = "output_file.txt";
-const char OUTPUT_C[] = "output_c.txt";
 
 // Arrays to store the computer A, R, C
 double R[P+1], C[FRAMES][P+1], AA[P];
@@ -96,7 +95,7 @@ void skip_metadata(FILE *fptr){
 
 void copy_to_test_data(int f){
 	for(int i=0;i<SAMPLES_IN_FRAME;i++)
-		test_data[i] = frame_data[f*SAMPLES_IN_FRAME+i];
+		test_data[i] = frame_data[f*SLIDING_WINDOW_AMOUNT+i];
 }
 
 // This is a function to extract stable frames from a recording which will be used for prediction. This also normalises the samples.
@@ -105,14 +104,20 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 		frame_data[i] = 0;
 	
 	FILE *fptr;
-	char filename[300];
+	char filename[300], filename2[300];
 	filename[0] = '\0';
-	if(choice == TRAINING && model == DEFAULT_MODEL)
+	if(choice == TRAINING && model == DEFAULT_MODEL){
 		sprintf(filename,"recordings/%d/obs_%d.txt",digitNumber,utterance+1);
-	else if(choice == TRAINING && model == CUSTOM_MODEL)
+		sprintf(filename2,"recordings/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
+	}
+	else if(choice == TRAINING && model == CUSTOM_MODEL){
 		sprintf(filename,"custom_model/recordings/%d/obs_%d.txt",digitNumber,utterance+1);
-	else 
+		sprintf(filename2,"custom_model/recordings/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
+	}
+	else{
 		sprintf(filename,"testing/%d/obs_%d.txt",digitNumber,utterance+1);
+		sprintf(filename2,"testing/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
+	}
 	printf("%s\n",filename);
 	if ((fptr = fopen(filename,"r")) == NULL){
 		printf("Error! opening file");
@@ -181,23 +186,21 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 			break;
 	}
 	fclose(fptr);
-	if ((fptr = fopen(OUTPUT_PATH,"w")) == NULL){
+	if ((fptr = fopen(filename2,"w")) == NULL){
 		printf("Error! opening file");
 	}
 	for(int i=0;i<SAMPLES_IN_FRAME*no_of_frames;i++){
 		fprintf(fptr,"%lf\n",frame_data[i]);
 	}
 	fclose(fptr);
+	int sliding_window_frames = 4 * (no_of_frames-1) + 1;
 	printf("No of frames = %d\n\n", no_of_frames);
-	return no_of_frames;
+	printf("No of sliding window frames = %d\n\n", sliding_window_frames);
+	return sliding_window_frames;
 }
 
 // Function to compute C vectors of the frames of all recordings.
-void populate_C(int no_of_frames){
-	FILE *fptr;
-	if ((fptr = fopen(OUTPUT_C,"w")) == NULL){
-		printf("Error! opening file");
-	}
+void populate_C(int no_of_frames, FILE *fptr){
 	double sum;
 	for(int j=0;j<no_of_frames;j++){
 		copy_to_test_data(j);
@@ -208,12 +211,13 @@ void populate_C(int no_of_frames){
 		for(int l = 0;l<P+1;l++){
 			if(l>=1){
 				C[j][l] *= (1 + P*sin(3.14*l/P)/2);
-				fprintf(fptr, "%lf\t", C[j][l]);
+				if(fptr != NULL) // Print to file only during Training phase
+					fprintf(fptr, "%lf\t", C[j][l]);
 			}
 		}
-		fprintf(fptr, "\n");
+		if(fptr != NULL) // Print to file only during Training phase
+			fprintf(fptr, "\n");
 	}
-	fclose(fptr);
 }
 
 int read_codebook(){
