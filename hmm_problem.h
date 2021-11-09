@@ -4,16 +4,25 @@
 #include <Math.h>
 #include <cstdio>
 
-int number_of_recordings = 0;
+
 
 #define N 5
 #define M 32
 #define MAX_T 150
-#define TRAINING_UTTERANCES 10
+#define TRAINING_UTTERANCES 10                  // Set this to more if number of utterances in default model is to be increased
 #define TESTING_UTTERANCES 10
-#define NO_OF_WORDS 10
 #define TRAINING 0
 #define TESTING 1
+#define DEFAULT_MODEL 0
+#define CUSTOM_MODEL 1
+
+int VAR_TRAINING_UTTERANCES = 10;
+int NO_OF_ITEMS = 6;
+char recorded_filename[300];
+int current_item = 0;
+int current_utterance = 0;
+int current_model = DEFAULT_MODEL;
+int is_custom_model_present = 0;
 
 long double A[N+1][N+1];
 long double B[N+1][M+1];
@@ -152,12 +161,14 @@ int read_PI(char file[]){
 }
 
 
-int read_T(int digit, int choice){
+int read_T(int digit, int choice, int model){
 	FILE *fptr;
 	char file[300];
 	file[0] = '\0';
-	if(choice == TRAINING)
+	if(choice == TRAINING && model == DEFAULT_MODEL)
 		sprintf(file,"output/obs_seq/frame_no_%d.txt",digit);
+	else if(choice == TRAINING && model == CUSTOM_MODEL)
+		sprintf(file,"custom_model/obs_seq/frame_no_%d.txt",digit);
 	else
 		sprintf(file,"testing/obs_seq/frame_no_%d.txt",digit);
 	if ((fptr = fopen(file,"r")) == NULL){
@@ -171,7 +182,7 @@ int read_T(int digit, int choice){
 	fclose(fptr);
 
 	// print T array
-	int utterance = TRAINING_UTTERANCES;
+	int utterance = VAR_TRAINING_UTTERANCES;
 	if(choice == TESTING)
 		utterance = TESTING_UTTERANCES;
 	for(int i=1;i<=utterance;i++)
@@ -179,8 +190,10 @@ int read_T(int digit, int choice){
 	printf("\n");
 }
 
-int read_OBS_SEQ(int digit, int choice){
-	read_T(digit, choice);
+int read_OBS_SEQ(int digit, int choice, int model){
+	if(read_T(digit, choice, model) == 1)
+		return 1;;
+
 	FILE *fptr;
 	char file[300];
 	char line[1024];
@@ -189,8 +202,10 @@ int read_OBS_SEQ(int digit, int choice){
 
 	// Open OBS_SEQ_1.txt file 
 	file[0] = '\0';
-	if(choice == TRAINING)
+	if(choice == TRAINING && model == DEFAULT_MODEL)
 		sprintf(file,"output/obs_seq/obs_%d.txt",digit);
+	else if(choice == TRAINING && model == CUSTOM_MODEL)
+		sprintf(file,"custom_model/obs_seq/obs_%d.txt",digit);
 	else
 		sprintf(file,"testing/obs_seq/obs_%d.txt",digit);
 	if ((fptr = fopen(file,"r")) == NULL){
@@ -199,7 +214,7 @@ int read_OBS_SEQ(int digit, int choice){
 	}
 
 	count = 1;
-	int utterance = TRAINING_UTTERANCES;
+	int utterance = VAR_TRAINING_UTTERANCES;
 	if(choice == TESTING)
 		utterance = TESTING_UTTERANCES;
 	// Read the observation sequence file line by line
@@ -220,7 +235,7 @@ int read_OBS_SEQ(int digit, int choice){
 
 	/*
 	printf("OBS_SEQ Matrix-----------------------\n");
-	for(int a=1;a<=TRAINING_UTTERANCES;a++){
+	for(int a=1;a<=VAR_TRAINING_UTTERANCES;a++){
 		for(int b = 1;b<=T[a];b++)
 			printf("%ld ", OBS_SEQ[a][b]);
 		printf("\n");
@@ -290,7 +305,7 @@ void do_test(){
 	for(int i=1;i<=TESTING_UTTERANCES;i++){
 		long double max_prob = 0, cur_prob = 0; 
 		int index = -1;
-		for(int j=0;j<NO_OF_WORDS;j++){
+		for(int j=0;j<NO_OF_ITEMS;j++){
 			file[0] = '\0';
 			sprintf(file,"output/lambda/%d/A_%d.txt",j,j);
 			//printf("%s", file);
@@ -549,10 +564,10 @@ void average_lambda(){
 	for(int i=1;i<=N;i++){
 		for(int j=1;j<=N;j++){
 			long double sum = 0;
-			for(int utterance = 1 ; utterance <= TRAINING_UTTERANCES ; utterance++){
+			for(int utterance = 1 ; utterance <= VAR_TRAINING_UTTERANCES ; utterance++){
 				sum += COLLECTION_A[utterance][i][j];
 			}
-			sum = sum / TRAINING_UTTERANCES;
+			sum = sum / VAR_TRAINING_UTTERANCES;
 			A[i][j] = sum;
 		}
 	}
@@ -562,22 +577,26 @@ void average_lambda(){
 	for(int i=1;i<=N;i++){
 		for(int j=1;j<=M;j++){
 			long double sum = 0;
-			for(int utterance = 1 ; utterance <= TRAINING_UTTERANCES ; utterance++){
+			for(int utterance = 1 ; utterance <= VAR_TRAINING_UTTERANCES ; utterance++){
 				sum += COLLECTION_B[utterance][i][j];
 			}
-			sum = sum / TRAINING_UTTERANCES;
+			sum = sum / VAR_TRAINING_UTTERANCES;
 			B[i][j] = sum;
 		}
 	}
 }
 
-void output_lambda_to_file(int digit){
+void output_lambda_to_file(int digit, int model){
 	FILE *fptr;
 	char filename[300];
 
 	// output PI
 	filename[0] = '\0';
-	sprintf(filename,"output/lambda/%d/PI_%d.txt",digit,digit);
+	if(model == DEFAULT_MODEL)
+		sprintf(filename,"output/lambda/%d/PI_%d.txt",digit,digit);
+	else if(model == CUSTOM_MODEL){
+		sprintf(filename,"custom_model/lambda/%d/PI_%d.txt",digit,digit);
+	}
 	if ((fptr = fopen(filename,"w")) == NULL){
 			printf("Error! opening file");
 		}
@@ -588,7 +607,11 @@ void output_lambda_to_file(int digit){
 
 	// output A
 	filename[0] = '\0';
-	sprintf(filename,"output/lambda/%d/A_%d.txt",digit,digit);
+	if(model == DEFAULT_MODEL)
+		sprintf(filename,"output/lambda/%d/A_%d.txt",digit,digit);
+	else if(model == CUSTOM_MODEL){
+		sprintf(filename,"custom_model/lambda/%d/A_%d.txt",digit,digit);
+	}
 	if ((fptr = fopen(filename,"w")) == NULL){
 			printf("Error! opening file");
 		}
@@ -601,7 +624,10 @@ void output_lambda_to_file(int digit){
 
 	// output B
 	filename[0] = '\0';
-	sprintf(filename,"output/lambda/%d/B_%d.txt",digit,digit);
+	if(model == DEFAULT_MODEL)
+		sprintf(filename,"output/lambda/%d/B_%d.txt",digit,digit);
+	else if(model == CUSTOM_MODEL)
+		sprintf(filename,"custom_model/lambda/%d/B_%d.txt",digit,digit);
 	if ((fptr = fopen(filename,"w")) == NULL){
 			printf("Error! opening file");
 		}
@@ -613,10 +639,11 @@ void output_lambda_to_file(int digit){
 	fclose(fptr);
 }
 
-void converge(int digit){
+void converge(int digit, int model){
 	printf("Converging digit %d\n",digit);
-	read_OBS_SEQ(digit, TRAINING);
-	for(int j=1;j<=TRAINING_UTTERANCES;j++){
+	read_OBS_SEQ(digit, TRAINING, model);
+	
+	for(int j=1;j<=VAR_TRAINING_UTTERANCES;j++){
 		initialise_bakis_model();
 		printf("Observation Sequence: %d \n",j);
 		for(int i=0;i<200;i++){
@@ -640,32 +667,37 @@ void converge(int digit){
 	//print final lambda
 	printf("\n\n The final lambda is \n");
 	print_lambda();
-	output_lambda_to_file(digit);
+	output_lambda_to_file(digit, model);
+	
 }
 
-int generate_observation_sequence(int choice){
+int generate_observation_sequence(int choice, int model){
+	
 	FILE *fptr, *fptr2;
 	char filename[300], filename2[300];
 	
-	int utterance = TRAINING_UTTERANCES;
+	int utterance = VAR_TRAINING_UTTERANCES;
 	if(choice == TESTING)
 		utterance = TESTING_UTTERANCES;
 
 	int frames_per_oberservation[TRAINING_UTTERANCES];
-	for(int i=0;i<TRAINING_UTTERANCES;i++)
+	for(int i=0;i<VAR_TRAINING_UTTERANCES;i++)
 		frames_per_oberservation[i] = 0;
 
 	// Read code book
 	if(read_codebook())
 		return 1;
-
+	
 	// Produce C values of all the recordings
 	// for all the digits
-	for(int i=0;i<NO_OF_DIGITS;i++){
+	for(int i=0;i<NO_OF_ITEMS;i++){
 		filename[0] = '\0';filename2[0] = '\0';
-		if(choice == TRAINING){
+		if(choice == TRAINING && model == DEFAULT_MODEL){
 			sprintf(filename,"output/obs_seq/obs_%d.txt",i);
 			sprintf(filename2,"output/obs_seq/frame_no_%d.txt",i);
+		}else if(choice == TRAINING && model == CUSTOM_MODEL){
+			sprintf(filename,"custom_model/obs_seq/obs_%d.txt",i);
+			sprintf(filename2,"custom_model/obs_seq/frame_no_%d.txt",i);
 		}else{
 			sprintf(filename,"testing/obs_seq/obs_%d.txt",i);
 			sprintf(filename2,"testing/obs_seq/frame_no_%d.txt",i);
@@ -673,14 +705,16 @@ int generate_observation_sequence(int choice){
 
 		if ((fptr = fopen(filename,"w")) == NULL){
 			printf("Error! opening file");
+			return 1;
 		}
 		if ((fptr2 = fopen(filename2,"w")) == NULL){
 			printf("Error! opening file");
+			return 1;
 		}
 		
 		// for all the utterances
 		for(int j=0;j<utterance;j++){
-			frames_per_oberservation[j] = extract_stable_frame_data(i,j, choice);
+			frames_per_oberservation[j] = extract_stable_frame_data(i,j, choice, model);
 			populate_C(frames_per_oberservation[j]);
 			produce_observation_sequence(frames_per_oberservation[j]);
 			for(int k=0;k<frames_per_oberservation[j];k++){
@@ -689,7 +723,22 @@ int generate_observation_sequence(int choice){
 			fprintf(fptr, "\n");
 			fprintf(fptr2, "%d\n", frames_per_oberservation[j]);
 		}
+		
 		fclose(fptr);
 		fclose(fptr2);
 	}
+	
+	return 0;
+}
+
+void record(){
+	if(current_item <= NO_OF_ITEMS-1 && current_utterance <= VAR_TRAINING_UTTERANCES-1){
+		recorded_filename[0] = '\0';
+		sprintf(recorded_filename, "custom_model/recordings/%d/obs_%d.wav", current_item, current_utterance+1);
+		char command[300];
+		command[0] = '\0';
+		sprintf(command, "Recording_Module.exe 3 custom_model/recordings/%d/obs_%d.wav custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1, current_item, current_utterance+1);
+		system(command);
+	}
+	
 }

@@ -7,9 +7,10 @@
 #define FRAMES 150
 #define STABLE_FRAME_FACTOR 0.005
 #define P 12
-#define NO_OF_DIGITS 10
 #define TRAINING 0
 #define TESTING 1
+#define DEFAULT_MODEL 0
+#define CUSTOM_MODEL 1
 
 double frame_data[SAMPLES_IN_FRAME*FRAMES];		// stores samples of speech frames of a recording of a digit
 double test_data[SAMPLES_IN_FRAME];				// Stores samples of a frame
@@ -99,15 +100,17 @@ void copy_to_test_data(int f){
 }
 
 // This is a function to extract stable frames from a recording which will be used for prediction. This also normalises the samples.
-int extract_stable_frame_data(int digitNumber, int utterance, int choice){
+int extract_stable_frame_data(int digitNumber, int utterance, int choice, int model){
 	for(int i=0;i<SAMPLES_IN_FRAME*FRAMES;i++)
 		frame_data[i] = 0;
 	
 	FILE *fptr;
 	char filename[300];
 	filename[0] = '\0';
-	if(choice == TRAINING)
+	if(choice == TRAINING && model == DEFAULT_MODEL)
 		sprintf(filename,"recordings/%d/obs_%d.txt",digitNumber,utterance+1);
+	else if(choice == TRAINING && model == CUSTOM_MODEL)
+		sprintf(filename,"custom_model/recordings/%d/obs_%d.txt",digitNumber,utterance+1);
 	else 
 		sprintf(filename,"testing/%d/obs_%d.txt",digitNumber,utterance+1);
 	printf("%s\n",filename);
