@@ -9,7 +9,7 @@
 #define N 5
 #define M 32
 #define MAX_T 150
-#define TRAINING_UTTERANCES 10                  // Set this to more if number of utterances in default model is to be increased
+#define TRAINING_UTTERANCES 100                  // Set this to more if number of utterances in default model is to be increased
 #define TESTING_UTTERANCES 10
 #define TRAINING 0
 #define TESTING 1
@@ -17,7 +17,7 @@
 #define CUSTOM_MODEL 1
 
 int VAR_TRAINING_UTTERANCES = 10;
-int NO_OF_ITEMS = 6;
+int NO_OF_ITEMS = 10;
 char recorded_filename[300];
 int current_item = 0;
 int current_utterance = 0;
