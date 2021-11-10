@@ -101,6 +101,15 @@ void skip_metadata(FILE *fptr){
 		fseek(fptr, 0, SEEK_SET);
 }
 
+void skip_initial_10_frames(FILE *fptr){
+	fseek(fptr, 0, SEEK_SET);
+	int count = 0;
+	double data;
+	while((fscanf(fptr,"%lf", &data)) != EOF && count<10*SAMPLES_IN_FRAME){
+		count++;
+	}
+}
+
 void copy_to_test_data(int f){
 	for(int i=0;i<SAMPLES_IN_FRAME;i++)
 		test_data[i] = frame_data[f*SLIDING_WINDOW_AMOUNT+i];
@@ -135,7 +144,7 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 	if ((fptr = fopen(filename,"r")) == NULL){
 		printf("Error! opening file");
 	}
-	skip_metadata(fptr);
+	skip_initial_10_frames(fptr);
 	//normalise
 	double max=0,min=0,abs_max;
 	double data;
@@ -163,7 +172,8 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 		abs_max = max;
 
 	//go to begining
-	skip_metadata(fptr);sum = 0;
+	skip_initial_10_frames(fptr);
+	sum = 0;
 	int no_of_frames = 0;
 	int index = -1;
 	int flag = 0;
