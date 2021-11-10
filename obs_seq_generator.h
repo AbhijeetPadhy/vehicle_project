@@ -208,7 +208,7 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 }
 
 // Function to compute C vectors of the frames of all recordings.
-void populate_C(int no_of_frames, FILE *fptr){
+void populate_C(int no_of_frames){
 	double sum;
 	for(int j=0;j<no_of_frames;j++){
 		copy_to_test_data(j);
@@ -219,12 +219,8 @@ void populate_C(int no_of_frames, FILE *fptr){
 		for(int l = 0;l<P+1;l++){
 			if(l>=1){
 				C[j][l] *= (1 + P*sin(3.14*l/P)/2);
-				if(fptr != NULL) // Print to file only during Training phase
-					fprintf(fptr, "%lf\t", C[j][l]);
 			}
 		}
-		if(fptr != NULL) // Print to file only during Training phase
-			fprintf(fptr, "\n");
 	}
 }
 

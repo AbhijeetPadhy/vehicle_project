@@ -673,26 +673,19 @@ void converge(int digit, int model){
 
 int generate_observation_sequence(int choice, int model){
 	
-	FILE *fptr, *fptr2, *fptr3 = NULL;
+	FILE *fptr, *fptr2;
 	char filename[300], filename2[300];
 	
 	int utterance = VAR_TRAINING_UTTERANCES;
 	if(choice == TESTING)
 		utterance = TESTING_UTTERANCES;
 
-	if(choice == TRAINING){
-		if ((fptr3 = fopen(UNIVERSE_PATH,"w")) == NULL){
-			printf("Error! opening file");
-			return 1;
-		}
-	}
-
 	int frames_per_oberservation[TRAINING_UTTERANCES];
 	for(int i=0;i<VAR_TRAINING_UTTERANCES;i++)
 		frames_per_oberservation[i] = 0;
 
 	// Read code book
-	if(read_codebook(USE_PERSONAL_CODEBOOK))
+	if(read_codebook(USE_PROVIDED_CODEBOOK))
 		return 1;
 	
 	// Produce C values of all the recordings
@@ -722,7 +715,7 @@ int generate_observation_sequence(int choice, int model){
 		// for all the utterances
 		for(int j=0;j<utterance;j++){
 			frames_per_oberservation[j] = extract_stable_frame_data(i,j, choice, model);
-			populate_C(frames_per_oberservation[j], fptr3);
+			populate_C(frames_per_oberservation[j]);
 			produce_observation_sequence(frames_per_oberservation[j]);
 			for(int k=0;k<frames_per_oberservation[j];k++){
 				fprintf(fptr, "%d\t", OBS_SEQ_GEN[k]);
@@ -734,10 +727,6 @@ int generate_observation_sequence(int choice, int model){
 		fclose(fptr);
 		fclose(fptr2);
 	}
-	if(fptr3 != NULL)
-		fclose(fptr3);
-	if(choice == TRAINING)
-		create_personal_codebook();
 	return 0;
 }
 
