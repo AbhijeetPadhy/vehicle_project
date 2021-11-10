@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "lbg_algorithm.h"
 #include <windows.h>
 #include <Math.h>
 #include <cstdio>
@@ -10,6 +11,8 @@
 #define P 12
 #define TRAINING 0
 #define TESTING 1
+#define USE_PROVIDED_CODEBOOK 0
+#define USE_PERSONAL_CODEBOOK 1
 #define DEFAULT_MODEL 0
 #define CUSTOM_MODEL 1
 
@@ -24,8 +27,12 @@ double R[P+1], C[FRAMES][P+1], AA[P];
 // Code Book
 double codebook[32][12];
 
-// Tokhura's Weights
-int w[] = {1,3,7,13,19,22,25,33,42,50,56,61};
+// Personal Universe Path
+const char UNIVERSE_PATH[] = "personal_universe.txt";
+
+// Codebook paths
+const char PERSONAL_CODEBOOK_PATH[] = "personal_codebook.txt";
+const char PROVIDED_CODEBOOK_PATH[] = "provided_codebook.txt";
 
 int OBS_SEQ_GEN[FRAMES];
 
@@ -106,6 +113,7 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 	FILE *fptr;
 	char filename[300], filename2[300];
 	filename[0] = '\0';
+	filename2[0] = '\0';
 	if(choice == TRAINING && model == DEFAULT_MODEL){
 		sprintf(filename,"recordings/%d/obs_%d.txt",digitNumber,utterance+1);
 		sprintf(filename2,"recordings/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
@@ -220,16 +228,23 @@ void populate_C(int no_of_frames, FILE *fptr){
 	}
 }
 
-int read_codebook(){
+int read_codebook(int choice){
 	FILE *fptr;
 	char line[1024];
 	char *ptr;
 	int count = 0;
 
 	// Open provided_codebook.txt file 
-	if ((fptr = fopen("provided_codebook.txt","r")) == NULL){
-		printf("Error! opening file");
-		return(1);
+	if(choice == USE_PROVIDED_CODEBOOK){
+		if ((fptr = fopen(PROVIDED_CODEBOOK_PATH,"r")) == NULL){
+			printf("Error! opening file");
+			return(1);
+		}
+	}else{
+		if ((fptr = fopen(PERSONAL_CODEBOOK_PATH,"r")) == NULL){
+			printf("Error! opening file");
+			return(1);
+		}
 	}
 
 	count = 0;
@@ -258,6 +273,51 @@ int read_codebook(){
 	}
 	printf("\n");
 	return 0;
+}
+
+void create_personal_codebook(){
+	double universe[10000][P];
+	FILE *fptr;
+	char line[1024];
+	char *ptr;
+	double code_book[TARGET_CODEBOOK_SIZE][P];
+
+	if ((fptr = fopen(UNIVERSE_PATH,"r")) == NULL){
+		printf("Error! opening file");
+		return;
+	}
+	int universe_size = 0;
+
+	while (fgets(line, 1024, fptr)){
+		char *token;
+
+		// get the first token
+		token = strtok(line, "\t");
+
+		// walk through other tokens
+		for(int i=0;i<P;i++){
+			universe[universe_size][i] = strtod(token, &ptr);
+			token = strtok(NULL, "\t");
+		}
+		universe_size++;
+	}
+	fclose(fptr);
+
+	// Run LBG Algorithm to create codebook
+	linde_buzo_gray(universe, universe_size, code_book);
+
+	// Write codebook to file
+	if ((fptr = fopen(PERSONAL_CODEBOOK_PATH,"w")) == NULL){
+		printf("Error! opening file");
+		return;
+	}
+	for(int i=0;i<TARGET_CODEBOOK_SIZE;i++){
+		for(int j=0;j<P;j++){
+			fprintf(fptr, "%lf\t", code_book[i][j]);
+		}
+		fprintf(fptr, "\n");
+	}
+	fclose(fptr);
 }
 
 // Function to compute Tokhura's Distance

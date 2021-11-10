@@ -43,7 +43,6 @@ int T[TRAINING_UTTERANCES+1];
 
 long double COLLECTION_A[TRAINING_UTTERANCES+1][N+1][N+1];
 long double COLLECTION_B[TRAINING_UTTERANCES+1][N+1][M+1];
-const char UNIVERSE_PATH[] = "personal_universe.txt";
 
 int read_A(char file[]){
 	FILE *fptr;
@@ -684,6 +683,7 @@ int generate_observation_sequence(int choice, int model){
 	if(choice == TRAINING){
 		if ((fptr3 = fopen(UNIVERSE_PATH,"w")) == NULL){
 			printf("Error! opening file");
+			return 1;
 		}
 	}
 
@@ -692,7 +692,7 @@ int generate_observation_sequence(int choice, int model){
 		frames_per_oberservation[i] = 0;
 
 	// Read code book
-	if(read_codebook())
+	if(read_codebook(USE_PERSONAL_CODEBOOK))
 		return 1;
 	
 	// Produce C values of all the recordings
@@ -736,6 +736,8 @@ int generate_observation_sequence(int choice, int model){
 	}
 	if(fptr3 != NULL)
 		fclose(fptr3);
+	if(choice == TRAINING)
+		create_personal_codebook();
 	return 0;
 }
 
