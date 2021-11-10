@@ -8,15 +8,13 @@
 
 #define N 5
 #define M 32
-#define MAX_T 150
+#define MAX_T 600                                // Ideally it should be 150, but as we are taking sliding windows, it can go upto 4 times 
 #define TRAINING_UTTERANCES 100                  // Set this to more if number of utterances in default model is to be increased
 #define TESTING_UTTERANCES 10
-#define TRAINING 0
-#define TESTING 1
 #define DEFAULT_MODEL 0
 #define CUSTOM_MODEL 1
 
-int VAR_TRAINING_UTTERANCES = 10;
+int VAR_TRAINING_UTTERANCES = 20;
 int NO_OF_ITEMS = 10;
 char recorded_filename[300];
 int current_item = 0;
@@ -160,6 +158,14 @@ int read_PI(char file[]){
 	*/
 }
 
+int read_T(){
+	FILE *fptr;
+	if ((fptr = fopen("live_testing/live_test_T.txt","r")) == NULL){
+		printf("Error! opening file");
+		return -1;
+	}
+	fscanf(fptr,"%d", &T[0]);
+}
 
 int read_T(int digit, int choice, int model){
 	FILE *fptr;
@@ -188,6 +194,19 @@ int read_T(int digit, int choice, int model){
 	for(int i=1;i<=utterance;i++)
 		printf("%d ", T[i]);
 	printf("\n");
+}
+
+int read_OBS_SEQ(){
+	read_T();
+	FILE *fptr;
+	if ((fptr = fopen("live_testing/live_test_obs_seq.txt","r")) == NULL){
+		printf("Error! opening file");
+		return(1);
+	}
+	for(int i=1;i<=T[0];i++)
+		fscanf(fptr, "%d", &OBS_SEQ[0][i]);
+	fclose(fptr);
+	return 0;
 }
 
 int read_OBS_SEQ(int digit, int choice, int model){
@@ -671,6 +690,37 @@ void converge(int digit, int model){
 	
 }
 
+int generate_observation_sequence(int model){
+	FILE *fptr;
+	
+	// Read code book
+	if(read_codebook(USE_PROVIDED_CODEBOOK))
+		return 1;
+
+	if ((fptr = fopen("live_testing/live_test_obs_seq.txt","w")) == NULL){
+		printf("Error! opening file");
+		return 1;
+	}
+
+	T[0] = extract_stable_frame_data(-1,-1, LIVE_TESTING, model);
+	populate_C(T[0]);
+	produce_observation_sequence(T[0]);
+	for(int k=0 ; k<T[0] ; k++){
+		fprintf(fptr, "%d\t", OBS_SEQ_GEN[k]);
+	}
+	fclose(fptr);
+
+	if ((fptr = fopen("live_testing/live_test_T.txt","w")) == NULL){
+		printf("Error! opening file");
+		return 1;
+	}
+
+	fprintf(fptr, "%d\n", T[0]);
+	fclose(fptr);
+
+	return 0;
+}
+
 int generate_observation_sequence(int choice, int model){
 	
 	FILE *fptr, *fptr2;
@@ -731,13 +781,54 @@ int generate_observation_sequence(int choice, int model){
 }
 
 void record(){
-	if(current_item <= NO_OF_ITEMS-1 && current_utterance <= VAR_TRAINING_UTTERANCES-1){
-		recorded_filename[0] = '\0';
-		sprintf(recorded_filename, "custom_model/recordings/%d/obs_%d.wav", current_item, current_utterance+1);
-		char command[300];
+	char command[300];
+	
+}
+
+void record(int choice){
+	char command[300];
+	if(choice == TRAINING){
+		if(current_item <= NO_OF_ITEMS-1 && current_utterance <= VAR_TRAINING_UTTERANCES-1){
+			recorded_filename[0] = '\0';
+			sprintf(recorded_filename, "custom_model/recordings/%d/obs_%d.wav", current_item, current_utterance+1);
+			command[0] = '\0';
+			sprintf(command, "Recording_Module.exe 3 custom_model/recordings/%d/obs_%d.wav custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1, current_item, current_utterance+1);
+			system(command);
+		}
+	}
+	else if(choice == LIVE_TESTING){
 		command[0] = '\0';
-		sprintf(command, "Recording_Module.exe 3 custom_model/recordings/%d/obs_%d.wav custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1, current_item, current_utterance+1);
+		sprintf(command, "Recording_Module.exe 3 live_testing/recordings/live_test.wav live_testing/recordings/live_test.txt");
 		system(command);
 	}
-	
+}
+
+int do_live_test(int model){
+	char file[300];
+	record(LIVE_TESTING);
+	generate_observation_sequence(model);
+	read_OBS_SEQ();
+	int index = -1;
+	long double max_prob = 0, cur_prob = 0; 
+	for(int j=0;j<NO_OF_ITEMS;j++){
+		file[0] = '\0';
+		sprintf(file,"output/lambda/%d/A_%d.txt",j,j);
+		read_A(file);
+		
+		file[0] = '\0';
+		sprintf(file,"output/lambda/%d/B_%d.txt",j,j);
+		read_B(file);
+
+		file[0] = '\0';
+		sprintf(file,"output/lambda/%d/PI_%d.txt",j,j);
+		read_PI(file);
+		cur_prob = forward_procedure(0);
+
+		printf("digit %d has probabiltiy = %g\n", j, cur_prob);
+		if(cur_prob>max_prob){
+			max_prob = cur_prob;
+			index = j;
+		}
+	}
+	return index;
 }

@@ -6,11 +6,12 @@
 
 #define SAMPLES_IN_FRAME 320
 #define SLIDING_WINDOW_AMOUNT 80
-#define FRAMES 150
+#define FRAMES 600                                // Ideally it should be 150, but as we are taking sliding windows, it can go upto 4 times 
 #define STABLE_FRAME_FACTOR 0.005
 #define P 12
 #define TRAINING 0
 #define TESTING 1
+#define LIVE_TESTING 2
 #define USE_PROVIDED_CODEBOOK 0
 #define USE_PERSONAL_CODEBOOK 1
 #define DEFAULT_MODEL 0
@@ -122,9 +123,13 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 		sprintf(filename,"custom_model/recordings/%d/obs_%d.txt",digitNumber,utterance+1);
 		sprintf(filename2,"custom_model/recordings/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
 	}
-	else{
+	else if(choice == TESTING){
 		sprintf(filename,"testing/%d/obs_%d.txt",digitNumber,utterance+1);
 		sprintf(filename2,"testing/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
+	}
+	else if(choice == LIVE_TESTING){
+		sprintf(filename,"live_testing/recordings/live_test.txt");
+		sprintf(filename2,"live_testing/recordings/live_test_extracted_frames.txt");
 	}
 	printf("%s\n",filename);
 	if ((fptr = fopen(filename,"r")) == NULL){
@@ -259,15 +264,7 @@ int read_codebook(int choice){
 		}
 		count++;
 	}
-	printf("count = %d\n",count);
 	fclose(fptr);
-	printf("codebook-----------------------\n");
-	for(int i=0;i<32;i++){
-		for(int j = 0;j<12;j++)
-			printf("%g ", codebook[i][j]);
-		printf("\n");
-	}
-	printf("\n");
 	return 0;
 }
 
