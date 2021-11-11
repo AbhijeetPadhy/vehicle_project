@@ -812,15 +812,24 @@ int do_live_test(int model){
 	long double max_prob = 0, cur_prob = 0; 
 	for(int j=0;j<NO_OF_ITEMS;j++){
 		file[0] = '\0';
-		sprintf(file,"output/lambda/%d/A_%d.txt",j,j);
+		if(model == DEFAULT_MODEL)
+			sprintf(file,"output/lambda/%d/A_%d.txt",j,j);
+		else
+			sprintf(file,"custom_model/lambda/%d/A_%d.txt",j,j);
 		read_A(file);
 		
 		file[0] = '\0';
-		sprintf(file,"output/lambda/%d/B_%d.txt",j,j);
+		if(model == DEFAULT_MODEL)
+			sprintf(file,"output/lambda/%d/B_%d.txt",j,j);
+		else
+			sprintf(file,"custom_model/lambda/%d/B_%d.txt",j,j);
 		read_B(file);
 
 		file[0] = '\0';
-		sprintf(file,"output/lambda/%d/PI_%d.txt",j,j);
+		if(model == DEFAULT_MODEL)
+			sprintf(file,"output/lambda/%d/PI_%d.txt",j,j);
+		else
+			sprintf(file,"custom_model/lambda/%d/PI_%d.txt",j,j);
 		read_PI(file);
 		cur_prob = forward_procedure(0);
 
