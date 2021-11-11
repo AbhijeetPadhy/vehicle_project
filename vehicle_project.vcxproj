@@ -98,6 +98,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="hmm_problem.h" />
+    <ClInclude Include="lbg_algorithm.h" />
     <ClInclude Include="obs_seq_generator.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

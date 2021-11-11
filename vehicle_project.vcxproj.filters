@@ -47,6 +47,9 @@
     <ClInclude Include="obs_seq_generator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lbg_algorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">

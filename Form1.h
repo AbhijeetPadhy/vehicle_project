@@ -106,11 +106,11 @@ namespace vehicle_project {
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
 			this->button7 = (gcnew System::Windows::Forms::Button());
 			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
 			this->tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
@@ -277,6 +277,7 @@ namespace vehicle_project {
 			this->button4->TabIndex = 5;
 			this->button4->Text = L"Play";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &Form1::button4_Click);
 			// 
 			// button1
 			// 
@@ -344,6 +345,28 @@ namespace vehicle_project {
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"Recording";
 			// 
+			// radioButton2
+			// 
+			this->radioButton2->AutoSize = true;
+			this->radioButton2->Location = System::Drawing::Point(288, 71);
+			this->radioButton2->Name = L"radioButton2";
+			this->radioButton2->Size = System::Drawing::Size(92, 17);
+			this->radioButton2->TabIndex = 4;
+			this->radioButton2->Text = L"Custom Model";
+			this->radioButton2->UseVisualStyleBackColor = true;
+			// 
+			// radioButton1
+			// 
+			this->radioButton1->AutoSize = true;
+			this->radioButton1->Checked = true;
+			this->radioButton1->Location = System::Drawing::Point(161, 71);
+			this->radioButton1->Name = L"radioButton1";
+			this->radioButton1->Size = System::Drawing::Size(91, 17);
+			this->radioButton1->TabIndex = 3;
+			this->radioButton1->TabStop = true;
+			this->radioButton1->Text = L"Default Model";
+			this->radioButton1->UseVisualStyleBackColor = true;
+			// 
 			// textBox3
 			// 
 			this->textBox3->Location = System::Drawing::Point(449, 41);
@@ -370,28 +393,6 @@ namespace vehicle_project {
 			this->label4->Size = System::Drawing::Size(81, 13);
 			this->label4->TabIndex = 0;
 			this->label4->Text = L"Predicted Word";
-			// 
-			// radioButton1
-			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Checked = true;
-			this->radioButton1->Location = System::Drawing::Point(161, 71);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(91, 17);
-			this->radioButton1->TabIndex = 3;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"Default Model";
-			this->radioButton1->UseVisualStyleBackColor = true;
-			// 
-			// radioButton2
-			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(288, 71);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(92, 17);
-			this->radioButton2->TabIndex = 4;
-			this->radioButton2->Text = L"Custom Model";
-			this->radioButton2->UseVisualStyleBackColor = true;
 			// 
 			// Form1
 			// 
@@ -483,6 +484,16 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 				 index = do_live_test(CUSTOM_MODEL);
 			 textBox3->Text = ""+index;
 			 pictureBox1->ImageLocation = "images/"+index+".PNG";
+		 }
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+			 try{
+				 System::Media::SoundPlayer^ player = gcnew System::Media::SoundPlayer();
+				 player->SoundLocation = gcnew String(recorded_filename);
+				 player->Load();
+				 player->PlaySync();
+			 }catch(Exception^ ex){
+				
+			 }
 		 }
 };
 }
