@@ -9,18 +9,21 @@
 #define N 5
 #define M 32
 #define MAX_T 150
-#define TRAINING_UTTERANCES 100                  // Set this to more if number of utterances in default model is to be increased
-#define TESTING_UTTERANCES 10
+#define MAX_TRAINING_UTTERANCES 100                  //Max No of utterances, used to declare arrays
+#define DEFAULT_TRAINING_UTTERANCES 20               // No of utterances in default model
 #define DEFAULT_MODEL 0
 #define CUSTOM_MODEL 1
+#define MAX_ITEMS 1000
+#define NO_ITEMS_DEFAULT 5
 
-int VAR_TRAINING_UTTERANCES = 20;
-int NO_OF_ITEMS = 2;
+int VAR_TRAINING_UTTERANCES = DEFAULT_TRAINING_UTTERANCES;
+int NO_OF_ITEMS = NO_ITEMS_DEFAULT;
+
+int NO_ITEMS_CUSTOM = NO_ITEMS_DEFAULT;
 char recorded_audio_file[300];
 char recorded_text_file[300];
 int current_item = 0;
 int current_utterance = 0;
-int current_model = DEFAULT_MODEL;
 int is_custom_model_present = 0;
 
 long double A[N+1][N+1];
@@ -29,7 +32,7 @@ long double PI[N+1];
 long double A_BAR[N+1][N+1];
 long double B_BAR[N+1][M+1];
 long double PI_BAR[N+1];
-long int OBS_SEQ[TRAINING_UTTERANCES+1][MAX_T+1];
+long int OBS_SEQ[MAX_TRAINING_UTTERANCES+1][MAX_T+1];
 long double ALPHA[MAX_T+1][N+1];
 long double BETA[MAX_T+1][N+1];
 long double XAI[MAX_T+1][N+1][N+1];
@@ -38,10 +41,13 @@ long double DELTA[N+1][MAX_T+1];
 long double PSI[N+1][MAX_T+1];
 long double P_star = 0;
 int Q_star[MAX_T+1];
-int T[TRAINING_UTTERANCES+1];
+int T[MAX_TRAINING_UTTERANCES+1];
 
-long double COLLECTION_A[TRAINING_UTTERANCES+1][N+1][N+1];
-long double COLLECTION_B[TRAINING_UTTERANCES+1][N+1][M+1];
+long double COLLECTION_A[MAX_TRAINING_UTTERANCES+1][N+1][N+1];
+long double COLLECTION_B[MAX_TRAINING_UTTERANCES+1][N+1][M+1];
+
+char list_items_custom[MAX_ITEMS][200] = {"Car", "Bus", "Truck", "Train", "Scooter"};
+char list_items_default[MAX_ITEMS][200] = {"Car", "Bus", "Truck", "Train", "Scooter"};
 
 int read_A(char file[]){
 	FILE *fptr;
@@ -190,8 +196,6 @@ int read_T(int digit, int choice, int model){
 
 	// print T array
 	int utterance = VAR_TRAINING_UTTERANCES;
-	if(choice == TESTING)
-		utterance = TESTING_UTTERANCES;
 	for(int i=1;i<=utterance;i++)
 		printf("%d ", T[i]);
 	printf("\n");
@@ -235,8 +239,6 @@ int read_OBS_SEQ(int digit, int choice, int model){
 
 	count = 1;
 	int utterance = VAR_TRAINING_UTTERANCES;
-	if(choice == TESTING)
-		utterance = TESTING_UTTERANCES;
 	// Read the observation sequence file line by line
 	while (fgets(line, 1024, fptr) && count <= utterance){
 		char *token;
@@ -252,15 +254,6 @@ int read_OBS_SEQ(int digit, int choice, int model){
 		count++;
 	}
 	fclose(fptr);
-
-	/*
-	printf("OBS_SEQ Matrix-----------------------\n");
-	for(int a=1;a<=VAR_TRAINING_UTTERANCES;a++){
-		for(int b = 1;b<=T[a];b++)
-			printf("%ld ", OBS_SEQ[a][b]);
-		printf("\n");
-	}
-	*/
 }
 
 long double forward_procedure(int z){
@@ -318,36 +311,6 @@ void backward_procedure(int z){
 		printf("\n");
 	}
 	*/
-}
-
-void do_test(){
-	char file[300];
-	for(int i=1;i<=TESTING_UTTERANCES;i++){
-		long double max_prob = 0, cur_prob = 0; 
-		int index = -1;
-		for(int j=0;j<NO_OF_ITEMS;j++){
-			file[0] = '\0';
-			sprintf(file,"output/lambda/%d/A_%d.txt",j,j);
-			//printf("%s", file);
-			read_A(file);
-
-			file[0] = '\0';
-			sprintf(file,"output/lambda/%d/B_%d.txt",j,j);
-			read_B(file);
-
-			file[0] = '\0';
-			sprintf(file,"output/lambda/%d/PI_%d.txt",j,j);
-			read_PI(file);
-			cur_prob = forward_procedure(i);
-
-			//printf("digit %d has probabiltiy = %g\n", j, cur_prob);
-			if(cur_prob>max_prob){
-				max_prob = cur_prob;
-				index = j;
-			}
-		}
-		printf("The digit is %d\n\n", index);
-	}
 }
 
 void compute_XAI(int z){
@@ -728,10 +691,8 @@ int generate_observation_sequence(int choice, int model){
 	char filename[300], filename2[300];
 	
 	int utterance = VAR_TRAINING_UTTERANCES;
-	if(choice == TESTING)
-		utterance = TESTING_UTTERANCES;
 
-	int frames_per_oberservation[TRAINING_UTTERANCES];
+	int frames_per_oberservation[MAX_TRAINING_UTTERANCES];
 	for(int i=0;i<VAR_TRAINING_UTTERANCES;i++)
 		frames_per_oberservation[i] = 0;
 
@@ -789,15 +750,13 @@ void record(){
 void record(int choice){
 	char command[300];
 	if(choice == TRAINING){
-		if(current_item <= NO_OF_ITEMS-1 && current_utterance <= VAR_TRAINING_UTTERANCES-1){
-			recorded_audio_file[0] = '\0';
-			sprintf(recorded_audio_file, "custom_model/recordings/%d/obs_%d.wav", current_item, current_utterance+1);
-			recorded_text_file[0] = '\0';
-			sprintf(recorded_text_file, "custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1);
-			command[0] = '\0';
-			sprintf(command, "Recording_Module.exe 3 custom_model/recordings/%d/obs_%d.wav custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1, current_item, current_utterance+1);
-			system(command);
-		}
+		recorded_audio_file[0] = '\0';
+		sprintf(recorded_audio_file, "custom_model/recordings/%d/obs_%d.wav", current_item, current_utterance+1);
+		recorded_text_file[0] = '\0';
+		sprintf(recorded_text_file, "custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1);
+		command[0] = '\0';
+		sprintf(command, "Recording_Module.exe 3 custom_model/recordings/%d/obs_%d.wav custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1, current_item, current_utterance+1);
+		system(command);
 	}
 	else if(choice == LIVE_TESTING){
 		command[0] = '\0';
@@ -843,4 +802,16 @@ int do_live_test(int model){
 		}
 	}
 	return index;
+}
+
+void write_items_to_file(){
+	FILE *fptr;
+	if ((fptr = fopen("custom_model/items.txt","w")) == NULL){
+		printf("Error! opening file");
+		return;
+	}
+	for(int i=0;i<NO_ITEMS_CUSTOM;i++){
+		fprintf(fptr, "%s\n",list_items_custom[i]);
+	}
+	fclose(fptr);
 }

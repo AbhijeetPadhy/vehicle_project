@@ -75,12 +75,6 @@ namespace vehicle_project {
 	private: System::Windows::Forms::RichTextBox^  richTextBox2;
 	private: System::Windows::Forms::TextBox^  textBox5;
 
-
-
-
-
-
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -227,6 +221,7 @@ namespace vehicle_project {
 			this->button9->TabIndex = 25;
 			this->button9->Text = L"Add";
 			this->button9->UseVisualStyleBackColor = true;
+			this->button9->Click += gcnew System::EventHandler(this, &Form1::button9_Click);
 			// 
 			// label6
 			// 
@@ -256,7 +251,7 @@ namespace vehicle_project {
 			this->richTextBox2->ReadOnly = true;
 			this->richTextBox2->Size = System::Drawing::Size(100, 130);
 			this->richTextBox2->TabIndex = 22;
-			this->richTextBox2->Text = L"car\nbus\ntruck\ntrain\nchopper\nplane\ncycle";
+			this->richTextBox2->Text = L"Car\nBus\nTruck\nTrain\nScooter";
 			// 
 			// textBox5
 			// 
@@ -343,7 +338,7 @@ namespace vehicle_project {
 			// numericUpDown1
 			// 
 			this->numericUpDown1->Location = System::Drawing::Point(106, 34);
-			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {2, 0, 0, 0});
+			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {1, 0, 0, 0});
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->Size = System::Drawing::Size(120, 20);
 			this->numericUpDown1->TabIndex = 9;
@@ -445,6 +440,7 @@ namespace vehicle_project {
 			this->radioButton2->TabIndex = 4;
 			this->radioButton2->Text = L"Custom Model";
 			this->radioButton2->UseVisualStyleBackColor = true;
+			this->radioButton2->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_CheckedChanged);
 			// 
 			// radioButton1
 			// 
@@ -457,6 +453,7 @@ namespace vehicle_project {
 			this->radioButton1->TabStop = true;
 			this->radioButton1->Text = L"Default Model";
 			this->radioButton1->UseVisualStyleBackColor = true;
+			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_CheckedChanged);
 			// 
 			// textBox3
 			// 
@@ -511,6 +508,8 @@ namespace vehicle_project {
 		}
 #pragma endregion
 	private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
+				 NO_OF_ITEMS = NO_ITEMS_CUSTOM;
+				 groupBox3->Enabled = false;
 				 numericUpDown1->Enabled = false;
 				 button6->Enabled = false;
 				 button2->Enabled = false;
@@ -520,20 +519,28 @@ namespace vehicle_project {
 				 current_utterance = 0;
 				 //generate_observation_sequence(TRAINING);
 				 button1->Enabled = true;
-				 textBox1->Text = ""+current_item;
+				 textBox1->Text = ""+ gcnew String(list_items_custom[current_item]);
 				 textBox2->Text = ""+(current_utterance+1);
+
+				 //Show Message Instruction
+				 String^ message = "You have to speak " + VAR_TRAINING_UTTERANCES + " times for each of the " + NO_OF_ITEMS + " words you have selected.";
+				 message += "\n\nThe name of the word you have to speak is already mentioned. ";
+				 message += "A plot of your recording is shown. You can also play your recording by clicking on the play button. ";
+				 message += "Once you have recorded everything necessary, you will be prompted to update the model. ";
+				 String^ caption = "Instructions";
+				 MessageBox::Show(message, caption);
 			 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 button4->Enabled = false;
 			 button8->Enabled = false;
 			 record(TRAINING);
 			 if(current_utterance == VAR_TRAINING_UTTERANCES-1){ // if all recordings of an item has been completed
-				 if(current_item < NO_OF_ITEMS-1){ // If some items are still left
+				 if(current_item < NO_ITEMS_CUSTOM-1){ // If some items are still left
 					current_item++;
 					current_utterance = 0;
-					textBox1->Text = ""+current_item;
+					textBox1->Text = ""+ gcnew String(list_items_custom[current_item]);
 					textBox2->Text = ""+(current_utterance+1);
-				 }else if(current_item == NO_OF_ITEMS-1){ // If all items are also exhausted
+				 }else if(current_item == NO_ITEMS_CUSTOM-1){ // If all items are also exhausted
 					button1->Enabled = false;
 					button2->Enabled = true;
 				 }
@@ -543,6 +550,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 }
 			 button4->Enabled = true;
 			 button8->Enabled = true;
+			 plot_chart();
 		 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 			 button6->Enabled = true;
@@ -554,32 +562,58 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 			 current_utterance = 0;
 			 textBox1->Text = "";
 			 textBox2->Text = "";
+			 groupBox3->Enabled = true;
+			 numericUpDown1->Enabled = true;
+			 textBox5->Text = "";
+
+			 //reset box of items
+			 richTextBox2->Text = "";
+			 for(int i=0;i<NO_ITEMS_DEFAULT;i++){
+				richTextBox2->Text += gcnew String(list_items_default[i])+"\n";
+			 }
+
+			 //reset the items array
+			 NO_ITEMS_CUSTOM = NO_ITEMS_DEFAULT;
+
+			 //clear chart
+			 this->chart1->ChartAreas->Clear();
+			 this->chart1->Series->Clear();
 		 }
 // Update Model
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+			 write_items_to_file();
 			 generate_observation_sequence(TRAINING, CUSTOM_MODEL);
 			 
-			 current_model = CUSTOM_MODEL;
 			 // Creating Model
-			 for(int i=0;i<NO_OF_ITEMS;i++)
+			 for(int i=0;i<NO_ITEMS_CUSTOM;i++)
 				converge(i, CUSTOM_MODEL);
 			 is_custom_model_present = 1;
+			 groupBox3->Enabled = true;
 		 }
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
-			 VAR_TRAINING_UTTERANCES = 20;
+			 VAR_TRAINING_UTTERANCES = DEFAULT_TRAINING_UTTERANCES;
 			 generate_observation_sequence(TRAINING, DEFAULT_MODEL);
-			 current_model = DEFAULT_MODEL;
+
 			 // Creating Model
-			 for(int i=0;i<NO_OF_ITEMS;i++)
+			 for(int i=0;i<NO_ITEMS_DEFAULT;i++)
 				converge(i, DEFAULT_MODEL);
+			 groupBox3->Enabled = true;
+
+			 //Show Message Instruction
+			 String^ message = "Default Model has been recreated!";
+			 String^ caption = "Instructions";
+			 MessageBox::Show(message, caption);
 		 }
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
 			 int index = -1;
-			 if(radioButton1->Checked == 1)
+			 if(radioButton1->Checked == 1){
 				 index = do_live_test(DEFAULT_MODEL);
-			 else
+				 textBox3->Text = ""+ gcnew String(list_items_default[index]);
+			 }
+			 else{
 				 index = do_live_test(CUSTOM_MODEL);
-			 textBox3->Text = ""+index;
+				 textBox3->Text = ""+ gcnew String(list_items_custom[index]);
+			 }
 			 pictureBox1->ImageLocation = "images/"+index+".PNG";
 		 }
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -592,7 +626,7 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 				
 			 }
 		 }
-private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void plot_chart(){
 			FILE* fptr;
 			 double data;
 			 if ((fptr = fopen(recorded_text_file,"r")) == NULL){
@@ -631,6 +665,61 @@ private: System::Void button8_Click(System::Object^  sender, System::EventArgs^ 
 				count++;
 			 }
 			 fclose(fptr);
+		 }
+private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
+			plot_chart();
+		 }
+private: System::Void radioButton2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+	FILE *fptr;
+	char item[500];
+	if(radioButton2->Checked == 1){
+		if(is_custom_model_present == 0){
+			if ((fptr = fopen("custom_model/items.txt","r")) == NULL){
+				printf("Error! opening file");
+				is_custom_model_present = 0;
+				NO_OF_ITEMS = NO_ITEMS_DEFAULT;
+				MessageBox::Show("There is no custom model present. You need to train it before you can use it!\nCurrent Model is set to default model!", "Warning");
+				radioButton1->Checked = 1;
+			}else{
+				is_custom_model_present = 1;
+			}
+			if(is_custom_model_present == 1){
+				NO_ITEMS_CUSTOM = 0;
+				while((fscanf(fptr,"%s", item)) != EOF){
+					NO_ITEMS_CUSTOM++;
+				}
+				NO_OF_ITEMS = NO_ITEMS_CUSTOM;
+				fclose(fptr);
+			}
+		}else{
+			NO_OF_ITEMS = NO_ITEMS_CUSTOM;
+		}
+	}
+}
+private: System::Void button9_Click(System::Object^  sender, System::EventArgs^  e) {
+			 String^ item = textBox5->Text;
+			 int n = item->Length;
+			 if(n>0){
+				 char ch = item[0];
+
+				 for(int i=0;i<n;i++){
+					list_items_custom[NO_ITEMS_CUSTOM][i] = item[i];
+				 }
+				 list_items_custom[NO_ITEMS_CUSTOM][n] = '\0';
+				 NO_ITEMS_CUSTOM++;
+
+				 richTextBox2->Text = "";
+				 for(int i=0;i<NO_ITEMS_CUSTOM;i++){
+					richTextBox2->Text += gcnew String(list_items_custom[i])+"\n";
+				 }
+
+				 MessageBox::Show("Added word "+item+" to database!", "List of words updated");
+			 }
+		 }
+private: System::Void radioButton1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(radioButton1->Checked == 1){
+				NO_OF_ITEMS = NO_ITEMS_DEFAULT;
+			 }
 		 }
 };
 }
