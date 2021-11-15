@@ -8,15 +8,16 @@
 
 #define N 5
 #define M 32
-#define MAX_T 600                                // Ideally it should be 150, but as we are taking sliding windows, it can go upto 4 times 
+#define MAX_T 150
 #define TRAINING_UTTERANCES 100                  // Set this to more if number of utterances in default model is to be increased
 #define TESTING_UTTERANCES 10
 #define DEFAULT_MODEL 0
 #define CUSTOM_MODEL 1
 
 int VAR_TRAINING_UTTERANCES = 20;
-int NO_OF_ITEMS = 10;
-char recorded_filename[300];
+int NO_OF_ITEMS = 2;
+char recorded_audio_file[300];
+char recorded_text_file[300];
 int current_item = 0;
 int current_utterance = 0;
 int current_model = DEFAULT_MODEL;
@@ -789,8 +790,10 @@ void record(int choice){
 	char command[300];
 	if(choice == TRAINING){
 		if(current_item <= NO_OF_ITEMS-1 && current_utterance <= VAR_TRAINING_UTTERANCES-1){
-			recorded_filename[0] = '\0';
-			sprintf(recorded_filename, "custom_model/recordings/%d/obs_%d.wav", current_item, current_utterance+1);
+			recorded_audio_file[0] = '\0';
+			sprintf(recorded_audio_file, "custom_model/recordings/%d/obs_%d.wav", current_item, current_utterance+1);
+			recorded_text_file[0] = '\0';
+			sprintf(recorded_text_file, "custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1);
 			command[0] = '\0';
 			sprintf(command, "Recording_Module.exe 3 custom_model/recordings/%d/obs_%d.wav custom_model/recordings/%d/obs_%d.txt", current_item, current_utterance+1, current_item, current_utterance+1);
 			system(command);

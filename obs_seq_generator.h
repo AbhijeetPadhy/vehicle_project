@@ -5,8 +5,7 @@
 #include <cstdio>
 
 #define SAMPLES_IN_FRAME 320
-#define SLIDING_WINDOW_AMOUNT 80
-#define FRAMES 600                                // Ideally it should be 150, but as we are taking sliding windows, it can go upto 4 times 
+#define FRAMES 150
 #define STABLE_FRAME_FACTOR 0.005
 #define P 12
 #define TRAINING 0
@@ -112,7 +111,7 @@ void skip_initial_10_frames(FILE *fptr){
 
 void copy_to_test_data(int f){
 	for(int i=0;i<SAMPLES_IN_FRAME;i++)
-		test_data[i] = frame_data[f*SLIDING_WINDOW_AMOUNT+i];
+		test_data[i] = frame_data[f*SAMPLES_IN_FRAME+i];
 }
 
 // This is a function to extract stable frames from a recording which will be used for prediction. This also normalises the samples.
@@ -216,10 +215,7 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 		fprintf(fptr,"%lf\n",frame_data[i]);
 	}
 	fclose(fptr);
-	int sliding_window_frames = 4 * (no_of_frames-1) + 1;
-	printf("No of frames = %d\n\n", no_of_frames);
-	printf("No of sliding window frames = %d\n\n", sliding_window_frames);
-	return sliding_window_frames;
+	return no_of_frames;
 }
 
 // Function to compute C vectors of the frames of all recordings.

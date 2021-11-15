@@ -67,6 +67,15 @@ namespace vehicle_project {
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::RadioButton^  radioButton2;
 	private: System::Windows::Forms::RadioButton^  radioButton1;
+	private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart1;
+	private: System::Windows::Forms::Button^  button8;
+	private: System::Windows::Forms::Button^  button9;
+	private: System::Windows::Forms::Label^  label6;
+	private: System::Windows::Forms::Label^  label5;
+	private: System::Windows::Forms::RichTextBox^  richTextBox2;
+	private: System::Windows::Forms::TextBox^  textBox5;
+
+
 
 
 
@@ -91,6 +100,13 @@ namespace vehicle_project {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->button9 = (gcnew System::Windows::Forms::Button());
+			this->label6 = (gcnew System::Windows::Forms::Label());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->richTextBox2 = (gcnew System::Windows::Forms::RichTextBox());
+			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
+			this->button8 = (gcnew System::Windows::Forms::Button());
+			this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -115,6 +131,7 @@ namespace vehicle_project {
 			this->tabPage1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->groupBox1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->BeginInit();
 			this->tabPage2->SuspendLayout();
 			this->groupBox4->SuspendLayout();
@@ -129,7 +146,7 @@ namespace vehicle_project {
 			this->tabControl1->Location = System::Drawing::Point(12, 12);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
-			this->tabControl1->Size = System::Drawing::Size(668, 525);
+			this->tabControl1->Size = System::Drawing::Size(668, 608);
 			this->tabControl1->TabIndex = 0;
 			// 
 			// tabPage1
@@ -139,7 +156,7 @@ namespace vehicle_project {
 			this->tabPage1->Location = System::Drawing::Point(4, 22);
 			this->tabPage1->Name = L"tabPage1";
 			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage1->Size = System::Drawing::Size(660, 499);
+			this->tabPage1->Size = System::Drawing::Size(660, 582);
 			this->tabPage1->TabIndex = 0;
 			this->tabPage1->Text = L"Model Training";
 			this->tabPage1->UseVisualStyleBackColor = true;
@@ -148,9 +165,9 @@ namespace vehicle_project {
 			// 
 			this->groupBox2->Controls->Add(this->button2);
 			this->groupBox2->Controls->Add(this->button5);
-			this->groupBox2->Location = System::Drawing::Point(14, 352);
+			this->groupBox2->Location = System::Drawing::Point(14, 479);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(633, 124);
+			this->groupBox2->Size = System::Drawing::Size(633, 87);
 			this->groupBox2->TabIndex = 8;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Model Updation";
@@ -158,7 +175,7 @@ namespace vehicle_project {
 			// button2
 			// 
 			this->button2->Enabled = false;
-			this->button2->Location = System::Drawing::Point(52, 48);
+			this->button2->Location = System::Drawing::Point(30, 30);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(108, 23);
 			this->button2->TabIndex = 3;
@@ -168,7 +185,7 @@ namespace vehicle_project {
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(206, 48);
+			this->button5->Location = System::Drawing::Point(164, 30);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(144, 23);
 			this->button5->TabIndex = 7;
@@ -178,6 +195,13 @@ namespace vehicle_project {
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->button9);
+			this->groupBox1->Controls->Add(this->label6);
+			this->groupBox1->Controls->Add(this->label5);
+			this->groupBox1->Controls->Add(this->richTextBox2);
+			this->groupBox1->Controls->Add(this->textBox5);
+			this->groupBox1->Controls->Add(this->button8);
+			this->groupBox1->Controls->Add(this->chart1);
 			this->groupBox1->Controls->Add(this->textBox2);
 			this->groupBox1->Controls->Add(this->textBox1);
 			this->groupBox1->Controls->Add(this->label3);
@@ -190,10 +214,77 @@ namespace vehicle_project {
 			this->groupBox1->Controls->Add(this->button1);
 			this->groupBox1->Location = System::Drawing::Point(14, 10);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(634, 318);
+			this->groupBox1->Size = System::Drawing::Size(634, 448);
 			this->groupBox1->TabIndex = 6;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Recording";
+			// 
+			// button9
+			// 
+			this->button9->Location = System::Drawing::Point(233, 60);
+			this->button9->Name = L"button9";
+			this->button9->Size = System::Drawing::Size(75, 23);
+			this->button9->TabIndex = 25;
+			this->button9->Text = L"Add";
+			this->button9->UseVisualStyleBackColor = true;
+			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Location = System::Drawing::Point(11, 60);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(61, 13);
+			this->label6->TabIndex = 24;
+			this->label6->Text = L"Add a word";
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->Location = System::Drawing::Point(482, 34);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(134, 13);
+			this->label5->TabIndex = 23;
+			this->label5->Text = L"Words present in database";
+			// 
+			// richTextBox2
+			// 
+			this->richTextBox2->BackColor = System::Drawing::SystemColors::ControlLightLight;
+			this->richTextBox2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->richTextBox2->Enabled = false;
+			this->richTextBox2->Location = System::Drawing::Point(502, 57);
+			this->richTextBox2->Name = L"richTextBox2";
+			this->richTextBox2->ReadOnly = true;
+			this->richTextBox2->Size = System::Drawing::Size(100, 130);
+			this->richTextBox2->TabIndex = 22;
+			this->richTextBox2->Text = L"car\nbus\ntruck\ntrain\nchopper\nplane\ncycle";
+			// 
+			// textBox5
+			// 
+			this->textBox5->Location = System::Drawing::Point(106, 60);
+			this->textBox5->Name = L"textBox5";
+			this->textBox5->Size = System::Drawing::Size(120, 20);
+			this->textBox5->TabIndex = 21;
+			// 
+			// button8
+			// 
+			this->button8->Enabled = false;
+			this->button8->Location = System::Drawing::Point(356, 164);
+			this->button8->Name = L"button8";
+			this->button8->Size = System::Drawing::Size(75, 23);
+			this->button8->TabIndex = 18;
+			this->button8->Text = L"Plot";
+			this->button8->UseVisualStyleBackColor = true;
+			this->button8->Click += gcnew System::EventHandler(this, &Form1::button8_Click);
+			// 
+			// chart1
+			// 
+			this->chart1->BorderlineColor = System::Drawing::Color::Silver;
+			this->chart1->BorderlineDashStyle = System::Windows::Forms::DataVisualization::Charting::ChartDashStyle::Solid;
+			this->chart1->Location = System::Drawing::Point(33, 254);
+			this->chart1->Name = L"chart1";
+			this->chart1->Size = System::Drawing::Size(569, 166);
+			this->chart1->TabIndex = 17;
+			this->chart1->Text = L"chart1";
 			// 
 			// textBox2
 			// 
@@ -206,7 +297,7 @@ namespace vehicle_project {
 			// textBox1
 			// 
 			this->textBox1->Enabled = false;
-			this->textBox1->Location = System::Drawing::Point(85, 153);
+			this->textBox1->Location = System::Drawing::Point(85, 174);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(100, 20);
 			this->textBox1->TabIndex = 15;
@@ -214,7 +305,7 @@ namespace vehicle_project {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(25, 200);
+			this->label3->Location = System::Drawing::Point(39, 203);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(35, 13);
 			this->label3->TabIndex = 14;
@@ -222,7 +313,7 @@ namespace vehicle_project {
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(135, 91);
+			this->button3->Location = System::Drawing::Point(151, 110);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(75, 23);
 			this->button3->TabIndex = 12;
@@ -232,7 +323,7 @@ namespace vehicle_project {
 			// 
 			// button6
 			// 
-			this->button6->Location = System::Drawing::Point(18, 91);
+			this->button6->Location = System::Drawing::Point(18, 110);
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(89, 23);
 			this->button6->TabIndex = 11;
@@ -243,15 +334,15 @@ namespace vehicle_project {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(161, 39);
+			this->label2->Location = System::Drawing::Point(15, 34);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(315, 13);
+			this->label2->Size = System::Drawing::Size(59, 13);
 			this->label2->TabIndex = 10;
-			this->label2->Text = L"Select the number of times you want to record for a particular item";
+			this->label2->Text = L"Utterances";
 			// 
 			// numericUpDown1
 			// 
-			this->numericUpDown1->Location = System::Drawing::Point(18, 37);
+			this->numericUpDown1->Location = System::Drawing::Point(106, 34);
 			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {2, 0, 0, 0});
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->Size = System::Drawing::Size(120, 20);
@@ -261,7 +352,7 @@ namespace vehicle_project {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(30, 153);
+			this->label1->Location = System::Drawing::Point(42, 174);
 			this->label1->Name = L"label1";
 			this->label1->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
 			this->label1->Size = System::Drawing::Size(33, 13);
@@ -271,7 +362,7 @@ namespace vehicle_project {
 			// button4
 			// 
 			this->button4->Enabled = false;
-			this->button4->Location = System::Drawing::Point(454, 177);
+			this->button4->Location = System::Drawing::Point(356, 203);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(75, 23);
 			this->button4->TabIndex = 5;
@@ -282,7 +373,7 @@ namespace vehicle_project {
 			// button1
 			// 
 			this->button1->Enabled = false;
-			this->button1->Location = System::Drawing::Point(288, 177);
+			this->button1->Location = System::Drawing::Point(215, 200);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(109, 23);
 			this->button1->TabIndex = 1;
@@ -297,7 +388,7 @@ namespace vehicle_project {
 			this->tabPage2->Location = System::Drawing::Point(4, 22);
 			this->tabPage2->Name = L"tabPage2";
 			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage2->Size = System::Drawing::Size(660, 499);
+			this->tabPage2->Size = System::Drawing::Size(660, 582);
 			this->tabPage2->TabIndex = 1;
 			this->tabPage2->Text = L"Testing";
 			this->tabPage2->UseVisualStyleBackColor = true;
@@ -398,7 +489,7 @@ namespace vehicle_project {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(692, 549);
+			this->ClientSize = System::Drawing::Size(692, 634);
 			this->Controls->Add(this->tabControl1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Name = L"Form1";
@@ -408,6 +499,7 @@ namespace vehicle_project {
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->EndInit();
 			this->tabPage2->ResumeLayout(false);
 			this->groupBox4->ResumeLayout(false);
@@ -432,6 +524,8 @@ namespace vehicle_project {
 				 textBox2->Text = ""+(current_utterance+1);
 			 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 button4->Enabled = false;
+			 button8->Enabled = false;
 			 record(TRAINING);
 			 if(current_utterance == VAR_TRAINING_UTTERANCES-1){ // if all recordings of an item has been completed
 				 if(current_item < NO_OF_ITEMS-1){ // If some items are still left
@@ -447,16 +541,19 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 				current_utterance++;
 				textBox2->Text = ""+(current_utterance+1);;
 			 }
+			 button4->Enabled = true;
+			 button8->Enabled = true;
 		 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 			 button6->Enabled = true;
 			 button1->Enabled = false;
 			 button4->Enabled = false;
 			 button2->Enabled = false;
+			 button8->Enabled = false;
 			 current_item = 0;
 			 current_utterance = 0;
-			 textBox1->Text = ""+current_item;
-			 textBox2->Text = ""+(current_utterance+1);
+			 textBox1->Text = "";
+			 textBox2->Text = "";
 		 }
 // Update Model
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -488,13 +585,52 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 			 try{
 				 System::Media::SoundPlayer^ player = gcnew System::Media::SoundPlayer();
-				 player->SoundLocation = gcnew String(recorded_filename);
+				 player->SoundLocation = gcnew String(recorded_audio_file);
 				 player->Load();
 				 player->PlaySync();
 			 }catch(Exception^ ex){
 				
 			 }
 		 }
+private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
+			FILE* fptr;
+			 double data;
+			 if ((fptr = fopen(recorded_text_file,"r")) == NULL){
+				printf("Error! opening file");
+				return;
+			}
+			 
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			//System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^  series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			
+			this->chart1->ChartAreas->Clear();
+			chartArea1->Name = L"ChartArea1";
+			this->chart1->ChartAreas->Add(chartArea1);
+			
+			//this->chart1->Legends->Clear();
+			//legend1->Name = L"Legend1";
+			//this->chart1->Legends->Add(legend1);
+			this->chart1->Location = System::Drawing::Point(33, 254);
+			this->chart1->Name = L"chart1";
+			series1->ChartArea = L"ChartArea1";
+			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			//series1->Legend = L"Legend1";
+			
+			this->chart1->Series->Clear();
+			series1->Name = L"Series1";
+			this->chart1->Series->Add(series1);
+			this->chart1->Size = System::Drawing::Size(569, 166);
+			this->chart1->TabIndex = 17;
+			this->chart1->Text = L"chart1";
+
+			 
+			 int count = 0;
+			 while((fscanf(fptr,"%lf", &data)) != EOF){
+				series1->Points->Add((gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(count, data)));
+				count++;
+			 }
+			 fclose(fptr);
+		 }
 };
 }
-
