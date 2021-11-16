@@ -14,7 +14,7 @@
 #define DEFAULT_MODEL 0
 #define CUSTOM_MODEL 1
 #define MAX_ITEMS 1000
-#define NO_ITEMS_DEFAULT 5
+#define NO_ITEMS_DEFAULT 10
 
 int VAR_TRAINING_UTTERANCES = DEFAULT_TRAINING_UTTERANCES;
 int NO_OF_ITEMS = NO_ITEMS_DEFAULT;
@@ -46,8 +46,8 @@ int T[MAX_TRAINING_UTTERANCES+1];
 long double COLLECTION_A[MAX_TRAINING_UTTERANCES+1][N+1][N+1];
 long double COLLECTION_B[MAX_TRAINING_UTTERANCES+1][N+1][M+1];
 
-char list_items_custom[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane"};
-char list_items_default[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane"};
+char list_items_custom[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane", "Tonga", "Ship", "Jeep", "Van", "Jet"};
+char list_items_default[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane", "Tonga", "Ship", "Jeep", "Van", "Jet"};
 
 int read_A(char file[]){
 	FILE *fptr;
@@ -814,4 +814,15 @@ void write_items_to_file(){
 		fprintf(fptr, "%s\n",list_items_custom[i]);
 	}
 	fclose(fptr);
+}
+
+void create_folders_custom_model(){
+	char command[200];
+	command[0] = '\0';
+	sprintf(command, "create_folders.bat %d", NO_OF_ITEMS);
+	system(command);
+}
+
+void create_folders_live_testing(){
+	system("create_folders_live.bat");
 }

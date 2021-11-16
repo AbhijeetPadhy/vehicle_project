@@ -74,6 +74,8 @@ namespace vehicle_project {
 	private: System::Windows::Forms::Label^  label5;
 	private: System::Windows::Forms::RichTextBox^  richTextBox2;
 	private: System::Windows::Forms::TextBox^  textBox5;
+	private: System::Windows::Forms::Label^  label7;
+
 
 	private:
 		/// <summary>
@@ -89,6 +91,17 @@ namespace vehicle_project {
 		void InitializeComponent(void)
 		{
 			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
+			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
+			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
+			this->button7 = (gcnew System::Windows::Forms::Button());
+			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->button2 = (gcnew System::Windows::Forms::Button());
@@ -111,37 +124,154 @@ namespace vehicle_project {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
-			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
-			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
-			this->button7 = (gcnew System::Windows::Forms::Button());
-			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->tabControl1->SuspendLayout();
+			this->tabPage2->SuspendLayout();
+			this->groupBox4->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
+			this->groupBox3->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->BeginInit();
-			this->tabPage2->SuspendLayout();
-			this->groupBox4->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
-			this->groupBox3->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tabControl1
 			// 
-			this->tabControl1->Controls->Add(this->tabPage1);
 			this->tabControl1->Controls->Add(this->tabPage2);
+			this->tabControl1->Controls->Add(this->tabPage1);
 			this->tabControl1->Location = System::Drawing::Point(12, 12);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
 			this->tabControl1->Size = System::Drawing::Size(668, 608);
 			this->tabControl1->TabIndex = 0;
+			// 
+			// tabPage2
+			// 
+			this->tabPage2->Controls->Add(this->groupBox4);
+			this->tabPage2->Controls->Add(this->groupBox3);
+			this->tabPage2->Location = System::Drawing::Point(4, 22);
+			this->tabPage2->Name = L"tabPage2";
+			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage2->Size = System::Drawing::Size(660, 582);
+			this->tabPage2->TabIndex = 1;
+			this->tabPage2->Text = L"Testing";
+			this->tabPage2->UseVisualStyleBackColor = true;
+			// 
+			// groupBox4
+			// 
+			this->groupBox4->BackColor = System::Drawing::Color::WhiteSmoke;
+			this->groupBox4->Controls->Add(this->label7);
+			this->groupBox4->Controls->Add(this->richTextBox1);
+			this->groupBox4->Controls->Add(this->pictureBox1);
+			this->groupBox4->Location = System::Drawing::Point(26, 155);
+			this->groupBox4->Name = L"groupBox4";
+			this->groupBox4->Size = System::Drawing::Size(604, 304);
+			this->groupBox4->TabIndex = 1;
+			this->groupBox4->TabStop = false;
+			this->groupBox4->Text = L"Information";
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Location = System::Drawing::Point(325, 22);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(35, 13);
+			this->label7->TabIndex = 2;
+			this->label7->Text = L"About";
+			// 
+			// richTextBox1
+			// 
+			this->richTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->richTextBox1->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->richTextBox1->Location = System::Drawing::Point(325, 41);
+			this->richTextBox1->Name = L"richTextBox1";
+			this->richTextBox1->ReadOnly = true;
+			this->richTextBox1->Size = System::Drawing::Size(224, 214);
+			this->richTextBox1->TabIndex = 1;
+			this->richTextBox1->Text = L"Hi! This is your own wikipedia, you can start searching by recording!!";
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->ImageLocation = L"item_data\\images\\mickey.png";
+			this->pictureBox1->Location = System::Drawing::Point(53, 41);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(216, 214);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox1->TabIndex = 0;
+			this->pictureBox1->TabStop = false;
+			// 
+			// groupBox3
+			// 
+			this->groupBox3->BackColor = System::Drawing::Color::WhiteSmoke;
+			this->groupBox3->Controls->Add(this->radioButton2);
+			this->groupBox3->Controls->Add(this->radioButton1);
+			this->groupBox3->Controls->Add(this->textBox3);
+			this->groupBox3->Controls->Add(this->button7);
+			this->groupBox3->Controls->Add(this->label4);
+			this->groupBox3->Location = System::Drawing::Point(26, 25);
+			this->groupBox3->Name = L"groupBox3";
+			this->groupBox3->Size = System::Drawing::Size(605, 111);
+			this->groupBox3->TabIndex = 0;
+			this->groupBox3->TabStop = false;
+			this->groupBox3->Text = L"Record";
+			// 
+			// radioButton2
+			// 
+			this->radioButton2->AutoSize = true;
+			this->radioButton2->Location = System::Drawing::Point(288, 71);
+			this->radioButton2->Name = L"radioButton2";
+			this->radioButton2->Size = System::Drawing::Size(96, 17);
+			this->radioButton2->TabIndex = 4;
+			this->radioButton2->Text = L"My Own Model";
+			this->radioButton2->UseVisualStyleBackColor = true;
+			this->radioButton2->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_CheckedChanged);
+			// 
+			// radioButton1
+			// 
+			this->radioButton1->AutoSize = true;
+			this->radioButton1->Checked = true;
+			this->radioButton1->Location = System::Drawing::Point(161, 71);
+			this->radioButton1->Name = L"radioButton1";
+			this->radioButton1->Size = System::Drawing::Size(91, 17);
+			this->radioButton1->TabIndex = 3;
+			this->radioButton1->TabStop = true;
+			this->radioButton1->Text = L"Default Model";
+			this->radioButton1->UseVisualStyleBackColor = true;
+			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_CheckedChanged);
+			// 
+			// textBox3
+			// 
+			this->textBox3->Location = System::Drawing::Point(449, 41);
+			this->textBox3->Name = L"textBox3";
+			this->textBox3->ReadOnly = true;
+			this->textBox3->Size = System::Drawing::Size(117, 20);
+			this->textBox3->TabIndex = 2;
+			// 
+			// button7
+			// 
+			this->button7->BackColor = System::Drawing::Color::MidnightBlue;
+			this->button7->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->button7->Font = (gcnew System::Drawing::Font(L"Cambria", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->button7->ForeColor = System::Drawing::SystemColors::ControlLightLight;
+			this->button7->Location = System::Drawing::Point(44, 27);
+			this->button7->Name = L"button7";
+			this->button7->Size = System::Drawing::Size(86, 47);
+			this->button7->TabIndex = 1;
+			this->button7->Text = L"Search";
+			this->button7->UseVisualStyleBackColor = false;
+			this->button7->Click += gcnew System::EventHandler(this, &Form1::button7_Click);
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Location = System::Drawing::Point(345, 41);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(82, 13);
+			this->label4->TabIndex = 0;
+			this->label4->Text = L"Searched Word";
 			// 
 			// tabPage1
 			// 
@@ -249,9 +379,9 @@ namespace vehicle_project {
 			this->richTextBox2->Location = System::Drawing::Point(502, 57);
 			this->richTextBox2->Name = L"richTextBox2";
 			this->richTextBox2->ReadOnly = true;
-			this->richTextBox2->Size = System::Drawing::Size(100, 130);
+			this->richTextBox2->Size = System::Drawing::Size(100, 159);
 			this->richTextBox2->TabIndex = 22;
-			this->richTextBox2->Text = L"Bike\nBoat\nBus\nCar\nPlane";
+			this->richTextBox2->Text = L"Bike\nBoat\nBus\nCar\nPlane\nTonga\nSheep\nJeep\nVan\nJet";
 			// 
 			// textBox5
 			// 
@@ -376,112 +506,6 @@ namespace vehicle_project {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
-			// tabPage2
-			// 
-			this->tabPage2->Controls->Add(this->groupBox4);
-			this->tabPage2->Controls->Add(this->groupBox3);
-			this->tabPage2->Location = System::Drawing::Point(4, 22);
-			this->tabPage2->Name = L"tabPage2";
-			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage2->Size = System::Drawing::Size(660, 582);
-			this->tabPage2->TabIndex = 1;
-			this->tabPage2->Text = L"Testing";
-			this->tabPage2->UseVisualStyleBackColor = true;
-			// 
-			// groupBox4
-			// 
-			this->groupBox4->Controls->Add(this->richTextBox1);
-			this->groupBox4->Controls->Add(this->pictureBox1);
-			this->groupBox4->Location = System::Drawing::Point(26, 155);
-			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(604, 304);
-			this->groupBox4->TabIndex = 1;
-			this->groupBox4->TabStop = false;
-			this->groupBox4->Text = L"Output";
-			// 
-			// richTextBox1
-			// 
-			this->richTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->richTextBox1->Location = System::Drawing::Point(325, 41);
-			this->richTextBox1->Name = L"richTextBox1";
-			this->richTextBox1->ReadOnly = true;
-			this->richTextBox1->Size = System::Drawing::Size(224, 214);
-			this->richTextBox1->TabIndex = 1;
-			this->richTextBox1->Text = L"";
-			// 
-			// pictureBox1
-			// 
-			this->pictureBox1->Location = System::Drawing::Point(53, 41);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(216, 214);
-			this->pictureBox1->TabIndex = 0;
-			this->pictureBox1->TabStop = false;
-			// 
-			// groupBox3
-			// 
-			this->groupBox3->Controls->Add(this->radioButton2);
-			this->groupBox3->Controls->Add(this->radioButton1);
-			this->groupBox3->Controls->Add(this->textBox3);
-			this->groupBox3->Controls->Add(this->button7);
-			this->groupBox3->Controls->Add(this->label4);
-			this->groupBox3->Location = System::Drawing::Point(26, 25);
-			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(605, 111);
-			this->groupBox3->TabIndex = 0;
-			this->groupBox3->TabStop = false;
-			this->groupBox3->Text = L"Recording";
-			// 
-			// radioButton2
-			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(288, 71);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(92, 17);
-			this->radioButton2->TabIndex = 4;
-			this->radioButton2->Text = L"Custom Model";
-			this->radioButton2->UseVisualStyleBackColor = true;
-			this->radioButton2->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_CheckedChanged);
-			// 
-			// radioButton1
-			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Checked = true;
-			this->radioButton1->Location = System::Drawing::Point(161, 71);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(91, 17);
-			this->radioButton1->TabIndex = 3;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"Default Model";
-			this->radioButton1->UseVisualStyleBackColor = true;
-			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_CheckedChanged);
-			// 
-			// textBox3
-			// 
-			this->textBox3->Location = System::Drawing::Point(449, 41);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->ReadOnly = true;
-			this->textBox3->Size = System::Drawing::Size(100, 20);
-			this->textBox3->TabIndex = 2;
-			// 
-			// button7
-			// 
-			this->button7->Location = System::Drawing::Point(53, 41);
-			this->button7->Name = L"button7";
-			this->button7->Size = System::Drawing::Size(75, 23);
-			this->button7->TabIndex = 1;
-			this->button7->Text = L"Record";
-			this->button7->UseVisualStyleBackColor = true;
-			this->button7->Click += gcnew System::EventHandler(this, &Form1::button7_Click);
-			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(345, 41);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(81, 13);
-			this->label4->TabIndex = 0;
-			this->label4->Text = L"Predicted Word";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -490,19 +514,20 @@ namespace vehicle_project {
 			this->Controls->Add(this->tabControl1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Name = L"Form1";
-			this->Text = L"Vehicle Information Tool";
+			this->Text = L"My Vehicle Wikipedia";
 			this->tabControl1->ResumeLayout(false);
+			this->tabPage2->ResumeLayout(false);
+			this->groupBox4->ResumeLayout(false);
+			this->groupBox4->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
+			this->groupBox3->ResumeLayout(false);
+			this->groupBox3->PerformLayout();
 			this->tabPage1->ResumeLayout(false);
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->EndInit();
-			this->tabPage2->ResumeLayout(false);
-			this->groupBox4->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
-			this->groupBox3->ResumeLayout(false);
-			this->groupBox3->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -529,6 +554,9 @@ namespace vehicle_project {
 				 message += "Once you have recorded everything necessary, you will be prompted to update the model. ";
 				 String^ caption = "Instructions";
 				 MessageBox::Show(message, caption);
+
+				 // create folders
+				 create_folders_custom_model();
 			 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 button4->Enabled = false;
@@ -605,16 +633,39 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 			 MessageBox::Show(message, caption);
 		 }
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+			 //create required folders
+			 create_folders_live_testing();
+			 
 			 int index = -1;
 			 if(radioButton1->Checked == 1){
 				 index = do_live_test(DEFAULT_MODEL);
-				 textBox3->Text = ""+ gcnew String(list_items_default[index]);
+				 if(index != -1)
+					textBox3->Text = ""+ gcnew String(list_items_default[index]);	
 			 }
 			 else{
 				 index = do_live_test(CUSTOM_MODEL);
-				 textBox3->Text = ""+ gcnew String(list_items_custom[index]);
+				 if(index != -1)
+					textBox3->Text = ""+ gcnew String(list_items_custom[index]);
 			 }
-			 pictureBox1->ImageLocation = "images/"+index+".PNG";
+			 if(index == -1){
+				textBox3->Text = ""+ gcnew String("Could not recognise!");
+			 }
+			 pictureBox1->ImageLocation = "item_data/images/"+index+".PNG";
+			 
+			 richTextBox1->Text = "";
+			 FILE *fptr;
+			 char filename[200], item[200];
+			 filename[0] = '\0';
+			 sprintf(filename, "item_data/info/%d.txt",index);
+			 if ((fptr = fopen(filename,"r")) == NULL){
+				printf("Error! opening file");
+				return;
+			 }
+			 while((fscanf(fptr,"%s", item)) != EOF){
+				richTextBox1->Text += gcnew String(item);
+				richTextBox1->Text += " ";
+			 }
+			 fclose(fptr);
 		 }
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 			 try{
