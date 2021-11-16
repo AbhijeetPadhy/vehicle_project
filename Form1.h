@@ -251,7 +251,7 @@ namespace vehicle_project {
 			this->richTextBox2->ReadOnly = true;
 			this->richTextBox2->Size = System::Drawing::Size(100, 130);
 			this->richTextBox2->TabIndex = 22;
-			this->richTextBox2->Text = L"Car\nBus\nTruck\nTrain\nScooter";
+			this->richTextBox2->Text = L"Bike\nBoat\nBus\nCar\nPlane";
 			// 
 			// textBox5
 			// 
@@ -686,6 +686,10 @@ private: System::Void radioButton2_CheckedChanged(System::Object^  sender, Syste
 			if(is_custom_model_present == 1){
 				NO_ITEMS_CUSTOM = 0;
 				while((fscanf(fptr,"%s", item)) != EOF){
+					int i=0;
+					for(i=0;item[i]!='\0';i++)
+						list_items_custom[NO_ITEMS_CUSTOM][i] = item[i];
+					list_items_custom[NO_ITEMS_CUSTOM][i] = '\0';
 					NO_ITEMS_CUSTOM++;
 				}
 				NO_OF_ITEMS = NO_ITEMS_CUSTOM;

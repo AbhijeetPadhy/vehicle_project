@@ -176,28 +176,38 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 	int no_of_frames = 0;
 	int index = -1;
 	int flag = 0;
+	double first_frame[320];
+	count = 0;
+	int move_till_end = 0;
 	while((fscanf(fptr,"%lf", &data)) != EOF){
 		if(flag == 0){
 			sum += data*data;
+			first_frame[count] = (data/max)*5000;
 			count++;
 			if(count == 320){
 				sum = sum/320;
 				if(sum > STABLE_FRAME_FACTOR*energy){
 					flag = 1;
 					index = 0;
+					for(index=0;index<320;index++)
+						frame_data[index] = first_frame[index];
+					no_of_frames++;
 				}
 				sum = 0;
 				count = 0;
 			}
 		}
-		else if(flag == 1){
+		else if(flag == 1 || move_till_end == 1){
 			sum += data*data;
 			count++;
 			if(count == 320){
 				sum = sum/320;
 				no_of_frames++;
 				if(sum < STABLE_FRAME_FACTOR*energy){
-					flag = 2;
+					if(no_of_frames>5)
+						flag = 2;
+					else
+						move_till_end = 1;
 				}
 				sum = 0;
 				count = 0;
@@ -329,7 +339,7 @@ void produce_observation_sequence(int no_of_frames){
 		for(int j=0;j<32;j++){
 			TD[j] = 0;
 			for(int k = 1;k<P+1;k++){
-				TD[j] += w[k] * (C[i][k]-codebook[j][k])*(C[i][k]-codebook[j][k]);
+				TD[j] += w[k-1] * (C[i][k]-codebook[j][k-1])*(C[i][k]-codebook[j][k-1]);
 			}
 		}
 		int index = 0;

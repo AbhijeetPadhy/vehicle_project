@@ -46,8 +46,8 @@ int T[MAX_TRAINING_UTTERANCES+1];
 long double COLLECTION_A[MAX_TRAINING_UTTERANCES+1][N+1][N+1];
 long double COLLECTION_B[MAX_TRAINING_UTTERANCES+1][N+1][M+1];
 
-char list_items_custom[MAX_ITEMS][200] = {"Car", "Bus", "Truck", "Train", "Scooter"};
-char list_items_default[MAX_ITEMS][200] = {"Car", "Bus", "Truck", "Train", "Scooter"};
+char list_items_custom[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane"};
+char list_items_default[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane"};
 
 int read_A(char file[]){
 	FILE *fptr;
