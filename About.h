@@ -10,19 +10,19 @@ namespace vehicle_project {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for Instructions
+	/// Summary for About
 	/// </summary>
-	public ref class Instructions : public System::Windows::Forms::Form
+	public ref class About : public System::Windows::Forms::Form
 	{
 	public:
-		Instructions(void)
+		About(void)
 		{
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
 			//
 			try{
-				richTextBox1->LoadFile( "instructions.rtf" );
+				richTextBox1->LoadFile( "about.rtf" );
 			 }catch(Exception^ e){
 				richTextBox1->Text = "Could Not Find File in Database.";
 			 }
@@ -32,7 +32,7 @@ namespace vehicle_project {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~Instructions()
+		~About()
 		{
 			if (components)
 			{
@@ -60,23 +60,21 @@ namespace vehicle_project {
 			// 
 			// richTextBox1
 			// 
-			this->richTextBox1->BackColor = System::Drawing::SystemColors::ControlLightLight;
-			this->richTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->richTextBox1->Location = System::Drawing::Point(24, 21);
+			this->richTextBox1->Location = System::Drawing::Point(0, 1);
 			this->richTextBox1->Name = L"richTextBox1";
 			this->richTextBox1->ReadOnly = true;
-			this->richTextBox1->Size = System::Drawing::Size(555, 279);
+			this->richTextBox1->Size = System::Drawing::Size(567, 258);
 			this->richTextBox1->TabIndex = 0;
 			this->richTextBox1->Text = L"";
 			// 
-			// Instructions
+			// About
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(602, 325);
+			this->ClientSize = System::Drawing::Size(568, 261);
 			this->Controls->Add(this->richTextBox1);
-			this->Name = L"Instructions";
-			this->Text = L"Instructions";
+			this->Name = L"About";
+			this->Text = L"About";
 			this->ResumeLayout(false);
 
 		}

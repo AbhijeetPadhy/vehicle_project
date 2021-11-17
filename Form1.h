@@ -2,6 +2,7 @@
 
 #include "hmm_problem.h"
 #include "Instructions.h"
+#include "About.h"
 
 namespace vehicle_project {
 
@@ -151,7 +152,7 @@ namespace vehicle_project {
 			// 
 			this->tabControl1->Controls->Add(this->tabPage2);
 			this->tabControl1->Controls->Add(this->tabPage1);
-			this->tabControl1->Location = System::Drawing::Point(12, 31);
+			this->tabControl1->Location = System::Drawing::Point(12, 28);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
 			this->tabControl1->Size = System::Drawing::Size(776, 608);
@@ -547,6 +548,7 @@ namespace vehicle_project {
 			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
 			this->aboutToolStripMenuItem->Size = System::Drawing::Size(199, 22);
 			this->aboutToolStripMenuItem->Text = L"About";
+			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::aboutToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -828,6 +830,10 @@ private: System::Void enableDeveloperModeToolStripMenuItem_CheckStateChanged(Sys
 private: System::Void helpToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 Instructions^ instr_obj = gcnew Instructions;
 			 instr_obj->ShowDialog();
+		 }
+private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 About^ about_obj = gcnew About;
+			 about_obj->ShowDialog();
 		 }
 };
 }
