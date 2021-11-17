@@ -20,11 +20,11 @@ int VAR_TRAINING_UTTERANCES = DEFAULT_TRAINING_UTTERANCES;
 int NO_OF_ITEMS = NO_ITEMS_DEFAULT;
 
 int NO_ITEMS_CUSTOM = NO_ITEMS_DEFAULT;
+int NO_ITEMS_ALREADY_PRESENT = 0;
 char recorded_audio_file[300];
 char recorded_text_file[300];
 int current_item = 0;
 int current_utterance = 0;
-int is_custom_model_present = 0;
 
 long double A[N+1][N+1];
 long double B[N+1][M+1];
@@ -48,6 +48,8 @@ long double COLLECTION_B[MAX_TRAINING_UTTERANCES+1][N+1][M+1];
 
 char list_items_custom[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane", "Tonga", "Ship", "Jeep", "Van", "Jet"};
 char list_items_default[MAX_ITEMS][200] = {"Bike", "Boat", "Bus", "Car", "Plane", "Tonga", "Ship", "Jeep", "Van", "Jet"};
+
+int live_testing_folders_created = 0;
 
 int read_A(char file[]){
 	FILE *fptr;
@@ -814,15 +816,24 @@ void write_items_to_file(){
 		fprintf(fptr, "%s\n",list_items_custom[i]);
 	}
 	fclose(fptr);
+
+	//writing utterances
+	if ((fptr = fopen("custom_model/utterances.txt","w")) == NULL){
+		printf("Error! opening file");
+		return;
+	}
+	fprintf(fptr, "%d\n",VAR_TRAINING_UTTERANCES);
+	fclose(fptr);
 }
 
 void create_folders_custom_model(){
 	char command[200];
 	command[0] = '\0';
-	sprintf(command, "create_folders.bat %d", NO_OF_ITEMS);
+	sprintf(command, "create_folders.bat %d", NO_OF_ITEMS-1);
 	system(command);
 }
 
 void create_folders_live_testing(){
 	system("create_folders_live.bat");
+	live_testing_folders_created = 1;
 }
