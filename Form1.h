@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hmm_problem.h"
+#include "Instructions.h"
 
 namespace vehicle_project {
 
@@ -74,7 +75,7 @@ namespace vehicle_project {
 	private: System::Windows::Forms::Label^  label5;
 	private: System::Windows::Forms::RichTextBox^  richTextBox2;
 	private: System::Windows::Forms::TextBox^  textBox5;
-	private: System::Windows::Forms::Label^  label7;
+
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  menuToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  enableDeveloperModeToolStripMenuItem;
@@ -98,7 +99,6 @@ namespace vehicle_project {
 			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
-			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
@@ -154,7 +154,7 @@ namespace vehicle_project {
 			this->tabControl1->Location = System::Drawing::Point(12, 31);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
-			this->tabControl1->Size = System::Drawing::Size(668, 608);
+			this->tabControl1->Size = System::Drawing::Size(776, 608);
 			this->tabControl1->TabIndex = 0;
 			// 
 			// tabPage2
@@ -164,49 +164,40 @@ namespace vehicle_project {
 			this->tabPage2->Location = System::Drawing::Point(4, 22);
 			this->tabPage2->Name = L"tabPage2";
 			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage2->Size = System::Drawing::Size(660, 582);
+			this->tabPage2->Size = System::Drawing::Size(768, 582);
 			this->tabPage2->TabIndex = 1;
-			this->tabPage2->Text = L"Testing";
+			this->tabPage2->Text = L"Vehicle Search";
 			this->tabPage2->UseVisualStyleBackColor = true;
 			// 
 			// groupBox4
 			// 
-			this->groupBox4->BackColor = System::Drawing::Color::WhiteSmoke;
-			this->groupBox4->Controls->Add(this->label7);
+			this->groupBox4->BackColor = System::Drawing::Color::Transparent;
 			this->groupBox4->Controls->Add(this->richTextBox1);
 			this->groupBox4->Controls->Add(this->pictureBox1);
 			this->groupBox4->Location = System::Drawing::Point(26, 155);
 			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(604, 304);
+			this->groupBox4->Size = System::Drawing::Size(720, 404);
 			this->groupBox4->TabIndex = 1;
 			this->groupBox4->TabStop = false;
 			this->groupBox4->Text = L"Information";
 			// 
-			// label7
-			// 
-			this->label7->AutoSize = true;
-			this->label7->Location = System::Drawing::Point(325, 22);
-			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(35, 13);
-			this->label7->TabIndex = 2;
-			this->label7->Text = L"About";
-			// 
 			// richTextBox1
 			// 
-			this->richTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->richTextBox1->BackColor = System::Drawing::SystemColors::ControlLightLight;
+			this->richTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->richTextBox1->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->richTextBox1->Location = System::Drawing::Point(325, 41);
+			this->richTextBox1->Location = System::Drawing::Point(261, 38);
 			this->richTextBox1->Name = L"richTextBox1";
 			this->richTextBox1->ReadOnly = true;
-			this->richTextBox1->Size = System::Drawing::Size(224, 214);
+			this->richTextBox1->Size = System::Drawing::Size(436, 337);
 			this->richTextBox1->TabIndex = 1;
 			this->richTextBox1->Text = L"Hi! This is your own wikipedia, you can start searching by recording!!";
 			// 
 			// pictureBox1
 			// 
 			this->pictureBox1->ImageLocation = L"item_data\\images\\mickey.png";
-			this->pictureBox1->Location = System::Drawing::Point(53, 41);
+			this->pictureBox1->Location = System::Drawing::Point(25, 41);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(216, 214);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
@@ -215,7 +206,7 @@ namespace vehicle_project {
 			// 
 			// groupBox3
 			// 
-			this->groupBox3->BackColor = System::Drawing::Color::WhiteSmoke;
+			this->groupBox3->BackColor = System::Drawing::Color::Transparent;
 			this->groupBox3->Controls->Add(this->radioButton2);
 			this->groupBox3->Controls->Add(this->radioButton1);
 			this->groupBox3->Controls->Add(this->textBox3);
@@ -223,7 +214,7 @@ namespace vehicle_project {
 			this->groupBox3->Controls->Add(this->label4);
 			this->groupBox3->Location = System::Drawing::Point(26, 25);
 			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(605, 111);
+			this->groupBox3->Size = System::Drawing::Size(720, 111);
 			this->groupBox3->TabIndex = 0;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"Record";
@@ -291,7 +282,7 @@ namespace vehicle_project {
 			this->tabPage1->Location = System::Drawing::Point(4, 22);
 			this->tabPage1->Name = L"tabPage1";
 			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage1->Size = System::Drawing::Size(660, 582);
+			this->tabPage1->Size = System::Drawing::Size(768, 582);
 			this->tabPage1->TabIndex = 0;
 			this->tabPage1->Text = L"Model Training";
 			this->tabPage1->UseVisualStyleBackColor = true;
@@ -303,7 +294,7 @@ namespace vehicle_project {
 			this->groupBox2->Enabled = false;
 			this->groupBox2->Location = System::Drawing::Point(14, 479);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(633, 87);
+			this->groupBox2->Size = System::Drawing::Size(735, 87);
 			this->groupBox2->TabIndex = 8;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Model Updation";
@@ -351,7 +342,7 @@ namespace vehicle_project {
 			this->groupBox1->Enabled = false;
 			this->groupBox1->Location = System::Drawing::Point(14, 10);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(634, 448);
+			this->groupBox1->Size = System::Drawing::Size(735, 448);
 			this->groupBox1->TabIndex = 6;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Recording";
@@ -378,7 +369,7 @@ namespace vehicle_project {
 			// label5
 			// 
 			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(482, 34);
+			this->label5->Location = System::Drawing::Point(569, 34);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(134, 13);
 			this->label5->TabIndex = 23;
@@ -389,12 +380,12 @@ namespace vehicle_project {
 			this->richTextBox2->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->richTextBox2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->richTextBox2->Enabled = false;
-			this->richTextBox2->Location = System::Drawing::Point(502, 57);
+			this->richTextBox2->Location = System::Drawing::Point(589, 57);
 			this->richTextBox2->Name = L"richTextBox2";
 			this->richTextBox2->ReadOnly = true;
 			this->richTextBox2->Size = System::Drawing::Size(100, 159);
 			this->richTextBox2->TabIndex = 22;
-			this->richTextBox2->Text = L"Bike\nBoat\nBus\nCar\nPlane\nTonga\nSheep\nJeep\nVan\nJet";
+			this->richTextBox2->Text = L"Bike\nBoat\nBus\nCar\nPlane\nTonga\nShip\nJeep\nVan\nJet";
 			// 
 			// textBox5
 			// 
@@ -420,7 +411,7 @@ namespace vehicle_project {
 			this->chart1->BorderlineDashStyle = System::Windows::Forms::DataVisualization::Charting::ChartDashStyle::Solid;
 			this->chart1->Location = System::Drawing::Point(33, 254);
 			this->chart1->Name = L"chart1";
-			this->chart1->Size = System::Drawing::Size(569, 166);
+			this->chart1->Size = System::Drawing::Size(680, 166);
 			this->chart1->TabIndex = 17;
 			this->chart1->Text = L"chart1";
 			// 
@@ -524,7 +515,7 @@ namespace vehicle_project {
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->menuToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(692, 24);
+			this->menuStrip1->Size = System::Drawing::Size(800, 24);
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -549,6 +540,7 @@ namespace vehicle_project {
 			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
 			this->helpToolStripMenuItem->Size = System::Drawing::Size(199, 22);
 			this->helpToolStripMenuItem->Text = L"Help";
+			this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::helpToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
@@ -560,7 +552,7 @@ namespace vehicle_project {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(692, 649);
+			this->ClientSize = System::Drawing::Size(800, 649);
 			this->Controls->Add(this->tabControl1);
 			this->Controls->Add(this->menuStrip1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
@@ -570,7 +562,6 @@ namespace vehicle_project {
 			this->tabControl1->ResumeLayout(false);
 			this->tabPage2->ResumeLayout(false);
 			this->groupBox4->ResumeLayout(false);
-			this->groupBox4->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox3->PerformLayout();
@@ -707,20 +698,13 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 			 }
 			 pictureBox1->ImageLocation = "item_data/images/"+index+".PNG";
 			 
-			 richTextBox1->Text = "";
-			 FILE *fptr;
-			 char filename[200], item[200];
-			 filename[0] = '\0';
-			 sprintf(filename, "item_data/info/%d.txt",index);
-			 if ((fptr = fopen(filename,"r")) == NULL){
-				printf("Error! opening file");
-				return;
+			 // Load Rich Text Box
+			 String^ rtf_file = "item_data/info/"+index+".rtf";
+			 try{
+				richTextBox1->LoadFile( rtf_file );
+			 }catch(Exception^ e){
+				richTextBox1->Text = "Could Not Find File in Database.";
 			 }
-			 while((fscanf(fptr,"%s", item)) != EOF){
-				richTextBox1->Text += gcnew String(item);
-				richTextBox1->Text += " ";
-			 }
-			 fclose(fptr);
 		 }
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 			 try{
@@ -840,6 +824,10 @@ private: System::Void enableDeveloperModeToolStripMenuItem_CheckStateChanged(Sys
 				 groupBox1->Enabled = false;
 				 groupBox2->Enabled = false;
 			 }
+		 }
+private: System::Void helpToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 Instructions^ instr_obj = gcnew Instructions;
+			 instr_obj->ShowDialog();
 		 }
 };
 }
