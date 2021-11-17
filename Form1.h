@@ -75,6 +75,11 @@ namespace vehicle_project {
 	private: System::Windows::Forms::RichTextBox^  richTextBox2;
 	private: System::Windows::Forms::TextBox^  textBox5;
 	private: System::Windows::Forms::Label^  label7;
+	private: System::Windows::Forms::MenuStrip^  menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^  menuToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  enableDeveloperModeToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  helpToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
 
 
 	private:
@@ -124,6 +129,11 @@ namespace vehicle_project {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->menuToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->enableDeveloperModeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tabControl1->SuspendLayout();
 			this->tabPage2->SuspendLayout();
 			this->groupBox4->SuspendLayout();
@@ -134,13 +144,14 @@ namespace vehicle_project {
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->BeginInit();
+			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tabControl1
 			// 
 			this->tabControl1->Controls->Add(this->tabPage2);
 			this->tabControl1->Controls->Add(this->tabPage1);
-			this->tabControl1->Location = System::Drawing::Point(12, 12);
+			this->tabControl1->Location = System::Drawing::Point(12, 31);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
 			this->tabControl1->Size = System::Drawing::Size(668, 608);
@@ -289,6 +300,7 @@ namespace vehicle_project {
 			// 
 			this->groupBox2->Controls->Add(this->button2);
 			this->groupBox2->Controls->Add(this->button5);
+			this->groupBox2->Enabled = false;
 			this->groupBox2->Location = System::Drawing::Point(14, 479);
 			this->groupBox2->Name = L"groupBox2";
 			this->groupBox2->Size = System::Drawing::Size(633, 87);
@@ -336,6 +348,7 @@ namespace vehicle_project {
 			this->groupBox1->Controls->Add(this->label1);
 			this->groupBox1->Controls->Add(this->button4);
 			this->groupBox1->Controls->Add(this->button1);
+			this->groupBox1->Enabled = false;
 			this->groupBox1->Location = System::Drawing::Point(14, 10);
 			this->groupBox1->Name = L"groupBox1";
 			this->groupBox1->Size = System::Drawing::Size(634, 448);
@@ -506,13 +519,52 @@ namespace vehicle_project {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
+			// menuStrip1
+			// 
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->menuToolStripMenuItem});
+			this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			this->menuStrip1->Name = L"menuStrip1";
+			this->menuStrip1->Size = System::Drawing::Size(692, 24);
+			this->menuStrip1->TabIndex = 1;
+			this->menuStrip1->Text = L"menuStrip1";
+			// 
+			// menuToolStripMenuItem
+			// 
+			this->menuToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->enableDeveloperModeToolStripMenuItem, 
+				this->helpToolStripMenuItem, this->aboutToolStripMenuItem});
+			this->menuToolStripMenuItem->Name = L"menuToolStripMenuItem";
+			this->menuToolStripMenuItem->Size = System::Drawing::Size(50, 20);
+			this->menuToolStripMenuItem->Text = L"Menu";
+			// 
+			// enableDeveloperModeToolStripMenuItem
+			// 
+			this->enableDeveloperModeToolStripMenuItem->CheckOnClick = true;
+			this->enableDeveloperModeToolStripMenuItem->Name = L"enableDeveloperModeToolStripMenuItem";
+			this->enableDeveloperModeToolStripMenuItem->Size = System::Drawing::Size(199, 22);
+			this->enableDeveloperModeToolStripMenuItem->Text = L"Enable Developer Mode";
+			this->enableDeveloperModeToolStripMenuItem->CheckStateChanged += gcnew System::EventHandler(this, &Form1::enableDeveloperModeToolStripMenuItem_CheckStateChanged);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
+			this->helpToolStripMenuItem->Size = System::Drawing::Size(199, 22);
+			this->helpToolStripMenuItem->Text = L"Help";
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
+			this->aboutToolStripMenuItem->Size = System::Drawing::Size(199, 22);
+			this->aboutToolStripMenuItem->Text = L"About";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(692, 634);
+			this->ClientSize = System::Drawing::Size(692, 649);
 			this->Controls->Add(this->tabControl1);
+			this->Controls->Add(this->menuStrip1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"Form1";
 			this->Text = L"My Vehicle Wikipedia";
 			this->tabControl1->ResumeLayout(false);
@@ -528,7 +580,10 @@ namespace vehicle_project {
 			this->groupBox1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->numericUpDown1))->EndInit();
+			this->menuStrip1->ResumeLayout(false);
+			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -774,6 +829,16 @@ private: System::Void button9_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void radioButton1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(radioButton1->Checked == 1){
 				NO_OF_ITEMS = NO_ITEMS_DEFAULT;
+			 }
+		 }
+private: System::Void enableDeveloperModeToolStripMenuItem_CheckStateChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(enableDeveloperModeToolStripMenuItem->Checked == 1){
+				 groupBox1->Enabled = true;
+				 groupBox2->Enabled = true;
+				 MessageBox::Show("Using this option, Model Training page gets enabled and you can create new models or reset the default model.", "Warning!");
+			 }else{
+				 groupBox1->Enabled = false;
+				 groupBox2->Enabled = false;
 			 }
 		 }
 };
