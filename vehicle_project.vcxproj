@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Instructions.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -105,6 +106,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="hmm_problem.h" />
+    <ClInclude Include="Instructions.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="lbg_algorithm.h" />
     <ClInclude Include="obs_seq_generator.h" />
     <ClInclude Include="resource.h" />
@@ -117,6 +121,9 @@
     <EmbeddedResource Include="Form1.resX">
       <DependentUpon>Form1.h</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Instructions.resx">
+      <DependentUpon>Instructions.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
