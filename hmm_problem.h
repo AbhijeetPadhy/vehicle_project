@@ -179,7 +179,7 @@ int read_T(int digit, int choice, int model){
 	char file[300];
 	file[0] = '\0';
 	if(choice == TRAINING && model == DEFAULT_MODEL)
-		sprintf(file,"output/obs_seq/frame_no_%d.txt",digit);
+		sprintf(file,"default_model/obs_seq/frame_no_%d.txt",digit);
 	else if(choice == TRAINING && model == CUSTOM_MODEL)
 		sprintf(file,"custom_model/obs_seq/frame_no_%d.txt",digit);
 	else
@@ -227,7 +227,7 @@ int read_OBS_SEQ(int digit, int choice, int model){
 	// Open OBS_SEQ_1.txt file 
 	file[0] = '\0';
 	if(choice == TRAINING && model == DEFAULT_MODEL)
-		sprintf(file,"output/obs_seq/obs_%d.txt",digit);
+		sprintf(file,"default_model/obs_seq/obs_%d.txt",digit);
 	else if(choice == TRAINING && model == CUSTOM_MODEL)
 		sprintf(file,"custom_model/obs_seq/obs_%d.txt",digit);
 	else
@@ -576,7 +576,7 @@ void output_lambda_to_file(int digit, int model){
 	// output PI
 	filename[0] = '\0';
 	if(model == DEFAULT_MODEL)
-		sprintf(filename,"output/lambda/%d/PI_%d.txt",digit,digit);
+		sprintf(filename,"default_model/lambda/%d/PI_%d.txt",digit,digit);
 	else if(model == CUSTOM_MODEL){
 		sprintf(filename,"custom_model/lambda/%d/PI_%d.txt",digit,digit);
 	}
@@ -591,7 +591,7 @@ void output_lambda_to_file(int digit, int model){
 	// output A
 	filename[0] = '\0';
 	if(model == DEFAULT_MODEL)
-		sprintf(filename,"output/lambda/%d/A_%d.txt",digit,digit);
+		sprintf(filename,"default_model/lambda/%d/A_%d.txt",digit,digit);
 	else if(model == CUSTOM_MODEL){
 		sprintf(filename,"custom_model/lambda/%d/A_%d.txt",digit,digit);
 	}
@@ -608,7 +608,7 @@ void output_lambda_to_file(int digit, int model){
 	// output B
 	filename[0] = '\0';
 	if(model == DEFAULT_MODEL)
-		sprintf(filename,"output/lambda/%d/B_%d.txt",digit,digit);
+		sprintf(filename,"default_model/lambda/%d/B_%d.txt",digit,digit);
 	else if(model == CUSTOM_MODEL)
 		sprintf(filename,"custom_model/lambda/%d/B_%d.txt",digit,digit);
 	if ((fptr = fopen(filename,"w")) == NULL){
@@ -705,8 +705,8 @@ int generate_observation_sequence(int choice, int model){
 	for(int i=0;i<NO_OF_ITEMS;i++){
 		filename[0] = '\0';filename2[0] = '\0';
 		if(choice == TRAINING && model == DEFAULT_MODEL){
-			sprintf(filename,"output/obs_seq/obs_%d.txt",i);
-			sprintf(filename2,"output/obs_seq/frame_no_%d.txt",i);
+			sprintf(filename,"default_model/obs_seq/obs_%d.txt",i);
+			sprintf(filename2,"default_model/obs_seq/frame_no_%d.txt",i);
 		}else if(choice == TRAINING && model == CUSTOM_MODEL){
 			sprintf(filename,"custom_model/obs_seq/obs_%d.txt",i);
 			sprintf(filename2,"custom_model/obs_seq/frame_no_%d.txt",i);
@@ -775,21 +775,21 @@ int do_live_test(int model){
 	for(int j=0;j<NO_OF_ITEMS;j++){
 		file[0] = '\0';
 		if(model == DEFAULT_MODEL)
-			sprintf(file,"output/lambda/%d/A_%d.txt",j,j);
+			sprintf(file,"default_model/lambda/%d/A_%d.txt",j,j);
 		else
-			sprintf(file,"custom_model/lambda/%d/A_%d.txt",j,j);
+			sprintf(file,"default_model/lambda/%d/A_%d.txt",j,j);
 		read_A(file);
 		
 		file[0] = '\0';
 		if(model == DEFAULT_MODEL)
-			sprintf(file,"output/lambda/%d/B_%d.txt",j,j);
+			sprintf(file,"default_model/lambda/%d/B_%d.txt",j,j);
 		else
 			sprintf(file,"custom_model/lambda/%d/B_%d.txt",j,j);
 		read_B(file);
 
 		file[0] = '\0';
 		if(model == DEFAULT_MODEL)
-			sprintf(file,"output/lambda/%d/PI_%d.txt",j,j);
+			sprintf(file,"default_model/lambda/%d/PI_%d.txt",j,j);
 		else
 			sprintf(file,"custom_model/lambda/%d/PI_%d.txt",j,j);
 		read_PI(file);

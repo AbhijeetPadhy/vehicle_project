@@ -124,8 +124,8 @@ int extract_stable_frame_data(int digitNumber, int utterance, int choice, int mo
 	filename[0] = '\0';
 	filename2[0] = '\0';
 	if(choice == TRAINING && model == DEFAULT_MODEL){
-		sprintf(filename,"recordings/%d/obs_%d.txt",digitNumber,utterance+1);
-		sprintf(filename2,"recordings/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
+		sprintf(filename,"default_model/recordings/%d/obs_%d.txt",digitNumber,utterance+1);
+		sprintf(filename2,"default_model/recordings/extracted_frames/%d/obs_%d.txt",digitNumber,utterance+1);
 	}
 	else if(choice == TRAINING && model == CUSTOM_MODEL){
 		sprintf(filename,"custom_model/recordings/%d/obs_%d.txt",digitNumber,utterance+1);

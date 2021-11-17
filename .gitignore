@@ -1,6 +1,5 @@
 Debug
 custom_model
-output
-recordings
-testing
+default_model
 vehicle_project.opensdf
+live_testing
